@@ -1,8 +1,9 @@
+---
 kind: Mesh
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: meshdemo
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   certificateAuthorities:
@@ -15,7 +16,7 @@ kind: VirtualService
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: home
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   mesh:
     ref:
@@ -31,7 +32,7 @@ kind: VirtualDeployment
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: home-v1
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   virtualService:
     ref:
@@ -50,7 +51,7 @@ apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: VirtualServiceRouteTable
 metadata:
   name: home-route-table
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   virtualService:
@@ -71,7 +72,7 @@ kind: IngressGateway
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: meshdemo-ingress-gateway
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   mesh:
@@ -94,7 +95,7 @@ apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: IngressGatewayDeployment
 metadata:
   name: meshdemo-ingress-gateway-deployment
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   ingressGateway:
     ref:
@@ -114,7 +115,7 @@ apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: IngressGatewayRouteTable
 metadata:
   name: meshdemo-ingress-gateway-route-table
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   ingressGateway:
@@ -133,7 +134,7 @@ kind: AccessPolicy
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: meshdemo-policy
-  namespace: meshdemo
+  namespace: meshdemo-ns
 spec:
   mesh:
     ref:
