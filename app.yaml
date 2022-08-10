@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: meshdemo-ingress
-  namespace: meshdemo-ns
+  namespace: meshdemo-namespace
   labels:
     app: meshdemo
     service: ingress
@@ -19,7 +19,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: home
-  namespace: meshdemo-ns
+  namespace: meshdemo-namespace
   labels:
     app: home
     service: home
@@ -34,7 +34,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: meshdemo-home
-  namespace: meshdemo-ns
+  namespace: meshdemo-namespace
   labels:
     account: home
 ---
@@ -42,7 +42,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: home-v1
-  namespace: meshdemo-ns
+  namespace: meshdemo-namespace
   labels:
     app: details
     version: v1
@@ -54,7 +54,7 @@ spec:
       version: v1
   template:
     metadata:
-      namespace: meshdemo-ns
+      namespace: meshdemo-namespace
       labels:
         app: home
         version: v1
