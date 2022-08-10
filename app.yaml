@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: meshdemo-ingress
+  namespace: meshdemo
+  labels:
+    app: meshdemo
+    service: ingress
+spec:
+  ports:
+    - port: 80
+      targetPort: 3000
+      name: http
+  selector:
+    app: home
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home
+  namespace: meshdemo
+  labels:
+    app: home
+    service: home
+spec:
+  ports:
+    - port: 3000
+      name: http
+  selector:
+    app: home
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: meshdemo-home
+  namespace: meshdemo
+  labels:
+    account: home
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-v1
+  namespace: meshdemo
+  labels:
+    app: details
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: home
+      version: v1
+  template:
+    metadata:
+      namespace: meshdemo
+      labels:
+        app: home
+        version: v1
+    spec:
+      serviceAccountName: meshdemo-home
+      containers:
+        - name: home
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          securityContext:
+            runAsUser: 1000
+      imagePullSecrets: 
+      - name: amsocirsecret
+---

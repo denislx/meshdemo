@@ -1,0 +1,152 @@
+kind: Mesh
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: meshdemo
+  namespace: meshdemo
+spec:
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  certificateAuthorities:
+    - id: ocid1.certificateauthority.oc1.eu-amsterdam-1.amaaaaaauevftmqaajcazwjonw6bqeaso5zmkdhadixczlz6rb5jpe2rinja
+  displayName: meshdemo
+  mtls:
+    minimum: PERMISSIVE
+---
+kind: VirtualService
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: home
+  namespace: meshdemo
+spec:
+  mesh:
+    ref:
+      name: meshdemo
+  defaultRoutingPolicy:
+    type: UNIFORM
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  hosts:
+    - home:3000
+    - home
+---
+kind: VirtualDeployment
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: home-v1
+  namespace: meshdemo
+spec:
+  virtualService:
+    ref:
+      name: home
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  listener:
+    - port: 3000
+      protocol: HTTP
+  accessLogging:
+    isEnabled: true
+  serviceDiscovery:
+    type: DNS
+    hostname: home
+---
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+kind: VirtualServiceRouteTable
+metadata:
+  name: home-route-table
+  namespace: meshdemo
+spec:
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  virtualService:
+    ref:
+      name: home
+  routeRules:
+    - httpRoute:
+        destinations:
+          - virtualDeployment:
+              ref:
+                name: home-v1
+            weight: 100
+        isGrpc: false
+        path: /
+        pathType: PREFIX
+---
+kind: IngressGateway
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: meshdemo-ingress-gateway
+  namespace: meshdemo
+spec:
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  mesh:
+    ref:
+      name: meshdemo
+  hosts:
+    - name: meshDemoHost
+      hostnames:
+        - home.meshdemo.io
+        - home.meshdemo.io:3000
+      listeners:
+        - port: 3000
+          protocol: HTTP
+          tls:
+            mode: DISABLED
+  accessLogging:
+    isEnabled: true
+---
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+kind: IngressGatewayDeployment
+metadata:
+  name: meshdemo-ingress-gateway-deployment
+  namespace: meshdemo
+spec:
+  ingressGateway:
+    ref:
+      name: meshdemo-ingress-gateway
+  deployment:
+    autoscaling:
+      minPods: 1
+      maxPods: 1
+  ports:
+    - protocol: TCP
+      port: 3000
+      serviceport: 80
+  service:
+    type: LoadBalancer
+---
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+kind: IngressGatewayRouteTable
+metadata:
+  name: meshdemo-ingress-gateway-route-table
+  namespace: meshdemo
+spec:
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  ingressGateway:
+    ref:
+      name: meshdemo-ingress-gateway
+  routeRules:
+    - httpRoute:
+        destinations:
+          - virtualService:
+              ref:
+                name: home
+        ingressGatewayHost:
+          name: meshdemoHost
+---
+kind: AccessPolicy
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: meshdemo-policy
+  namespace: meshdemo
+spec:
+  mesh:
+    ref:
+      name: meshdemo
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  rules:
+    - action: ALLOW
+      source:
+        ingressGateway:
+          ref:
+            name: meshdemo-ingress-gateway
+      destination:
+        virtualService:
+          ref:
+            name: home
+---
