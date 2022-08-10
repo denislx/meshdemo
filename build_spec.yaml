@@ -7,5 +7,12 @@ env:
 steps:
   - type: Command
     command: |
-      docker build .
-    
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo:latest .
+      docker tag ams.ocir.io/frsxwtjslf35/meshdemo:latest ams.ocir.io/frsxwtjslf35/meshdemo:1.0
+outputArtifacts:
+  - name: meshdemo
+    type: DOCKER_IMAGE
+    location: ams.ocir.io/frsxwtjslf35/meshdemo:latest
+  - name: meshdemo-version
+    type: DOCKER_IMAGE
+    location: ams.ocir.io/frsxwtjslf35/meshdemo
