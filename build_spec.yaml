@@ -8,8 +8,9 @@ env:
 steps:
   - type: Command
     command: |
+      echo "Building homeservice ${version}"
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
-      docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:$version
+      docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${version}
 outputArtifacts:
   - name: meshdemo-homesvc-latest
     type: DOCKER_IMAGE
