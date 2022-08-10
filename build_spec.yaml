@@ -4,10 +4,10 @@ timeoutInSeconds: 5000
 shell: bash
 env:
   exportedVariables:
+    - version
 steps:
   - type: Command
     command: |
-      export version=1.0
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:$version
 outputArtifacts:
