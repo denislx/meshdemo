@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: meshdemo-ingress
-  namespace: meshdemons
+  namespace: meshdemons-v2
   labels:
     app: meshdemo
     service: ingress
@@ -19,7 +19,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: home
-  namespace: meshdemons
+  namespace: meshdemons-v2
   labels:
     app: home
     service: home
@@ -31,10 +31,40 @@ spec:
     app: home
 ---
 apiVersion: v1
+kind: Service
+metadata:
+  name: home-v1
+  namespace: meshdemons-v2
+  labels:
+    app: home
+    service: home
+spec:
+  ports:
+    - port: 3000
+      name: http
+  selector:
+    app: reviews
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-v2
+  namespace: meshdemons-v2
+  labels:
+    app: home
+    service: home
+spec:
+  ports:
+    - port: 3000
+      name: http
+  selector:
+    app: reviews
+---    
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: meshdemo-home
-  namespace: meshdemons
+  namespace: meshdemons-v2
   labels:
     account: home
 ---
@@ -42,9 +72,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: home-v1
-  namespace: meshdemons
+  namespace: meshdemons-v2
   labels:
-    app: details
+    app: home
     version: v1
 spec:
   replicas: 2
@@ -54,7 +84,7 @@ spec:
       version: v1
   template:
     metadata:
-      namespace: meshdemons
+      namespace: meshdemons-v2
       labels:
         app: home
         version: v1
@@ -63,6 +93,39 @@ spec:
       containers:
         - name: home
           image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          securityContext:
+            runAsUser: 1000
+      imagePullSecrets: 
+      - name: amsocirsecret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-v2
+  namespace: meshdemons-v2
+  labels:
+    app: home
+    version: v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: home
+      version: v2
+  template:
+    metadata:
+      namespace: meshdemons-v2
+      labels:
+        app: home
+        version: v2
+    spec:
+      serviceAccountName: meshdemo-home
+      containers:
+        - name: home
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:2.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
