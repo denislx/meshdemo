@@ -2,13 +2,13 @@
 kind: Mesh
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
-  name: meshdemo
-  namespace: meshdemons-v2
+  name: meshdemons-v3
+  namespace: meshdemons-v3
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   certificateAuthorities:
     - id: ocid1.certificateauthority.oc1.eu-amsterdam-1.amaaaaaauevftmqaajcazwjonw6bqeaso5zmkdhadixczlz6rb5jpe2rinja
-  displayName: meshdemo
+  displayName: meshdemons-v3
   mtls:
     minimum: PERMISSIVE
 ---
@@ -16,11 +16,11 @@ kind: VirtualService
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: home
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   mesh:
     ref:
-      name: meshdemo
+      name: meshdemons-v3
   defaultRoutingPolicy:
     type: UNIFORM
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
@@ -32,7 +32,7 @@ kind: VirtualDeployment
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: home-v1
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   virtualService:
     ref:
@@ -51,7 +51,7 @@ kind: VirtualDeployment
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: home-v2
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   virtualService:
     ref:
@@ -70,7 +70,7 @@ apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: VirtualServiceRouteTable
 metadata:
   name: home-route-table
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   virtualService:
@@ -95,12 +95,12 @@ kind: IngressGateway
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: meshdemo-ingress-gateway
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   mesh:
     ref:
-      name: meshdemo
+      name: meshdemons-v3
   hosts:
     - name: meshdemoHost
       hostnames:
@@ -118,7 +118,7 @@ apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: IngressGatewayDeployment
 metadata:
   name: meshdemo-ingress-gateway-deployment
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   ingressGateway:
     ref:
@@ -138,7 +138,7 @@ apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: IngressGatewayRouteTable
 metadata:
   name: meshdemo-ingress-gateway-route-table
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   ingressGateway:
@@ -157,11 +157,11 @@ kind: AccessPolicy
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: meshdemo-policy
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
 spec:
   mesh:
     ref:
-      name: meshdemo
+      name: meshdemons-v3
   compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
   rules:
     - action: ALLOW

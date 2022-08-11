@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: meshdemo-ingress
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
   labels:
     app: meshdemo
     service: ingress
@@ -19,7 +19,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: home
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
   labels:
     app: home
     service: home
@@ -34,7 +34,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: home-v1
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
   labels:
     app: home
     service: home
@@ -49,7 +49,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: home-v2
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
   labels:
     app: home
     service: home
@@ -64,7 +64,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: meshdemo-home
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
   labels:
     account: home
 ---
@@ -72,7 +72,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: home-v1
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
   labels:
     app: home
     version: v1
@@ -84,7 +84,7 @@ spec:
       version: v1
   template:
     metadata:
-      namespace: meshdemons-v2
+      namespace: meshdemons-v3
       labels:
         app: home
         version: v1
@@ -105,7 +105,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: home-v2
-  namespace: meshdemons-v2
+  namespace: meshdemons-v3
   labels:
     app: home
     version: v2
@@ -117,7 +117,7 @@ spec:
       version: v2
   template:
     metadata:
-      namespace: meshdemons-v2
+      namespace: meshdemons-v3
       labels:
         app: home
         version: v2
