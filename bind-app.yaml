@@ -2,15 +2,15 @@ kind: VirtualDeploymentBinding
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
   name: home-v1-binding
-  namespace: meshdemo
+  namespace: meshdemons
 spec:
   virtualDeployment:
     ref:
       name: home-v1
-      namespace: meshdemo
+      namespace: meshdemons
   target:
     service:
       ref:
         name: home
-        namespace: meshdemo
+        namespace: meshdemons
 ---
