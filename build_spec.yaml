@@ -11,15 +11,6 @@ steps:
       version=1.0
       echo "Version: ${version}"
   - type: Command
-    command: | 
-      oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaavc2hy67ng5aiotgium73omr5hjhvjanmw7mwel2e6cxqmdf6qtcq --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PRIVATE_ENDPOINT
-  - type: Command
-    command: |
-      chmod +x ./kubectl
-      export KUBECONFIG="kconfig"
-      ./kubectl version
-      ./kubectl get nodes
-  - type: Command
     command: |
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${version}
