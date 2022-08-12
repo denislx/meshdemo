@@ -12,15 +12,15 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      .export meshdemons-version=meshdemons-v8
-      ./kubectl create namespace $meshdemons-version
-      ./kubectl label namespace $meshdemons-version servicemesh.oci.oracle.com/sidecar-injection=enabled
-      ./kubectl create secret -n $meshdemons-version docker-registry amsocirsecret --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com'  --docker-password 'Y}SMSjCO02X5o){e.(-K'  --docker-server 'ams.ocir.io'
-      sed -i 's/meshdemons-version/${meshdemons-version}/g' app.yaml
+      export meshdemons_version=meshdemons-v8
+      ./kubectl create namespace $meshdemons_version
+      ./kubectl label namespace $meshdemons_version servicemesh.oci.oracle.com/sidecar-injection=enabled
+      ./kubectl create secret -n $meshdemons_version docker-registry amsocirsecret --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com'  --docker-password 'Y}SMSjCO02X5o){e.(-K'  --docker-server 'ams.ocir.io'
+      sed -i 's/meshdemons_version/${meshdemons_version}/g' app.yaml
       ./kubectl create -f app.yaml
       sleep 120
-      sed -i 's/meshdemons-version/${meshdemons-version}/g' meshify-app.yaml
-      sed -i 's/meshdemons-version/${meshdemons-version}/g' bind-app.yaml
+      sed -i 's/meshdemons_version/${meshdemons_version}/g' meshify-app.yaml
+      sed -i 's/meshdemons_version/${meshdemons_version}/g' bind-app.yaml
       ./kubectl create -f meshify-app.yaml
       ./kubectl create -f bind-app.yaml
       
