@@ -12,7 +12,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemons_version=meshdemons-v9
+      export meshdemons_version=meshdemons-v1.0
       sed -i "s/meshdemons_version/${meshdemons_version}/g" vault.yaml
       sed -i "s/meshdemons_version/${meshdemons_version}/g" secret.yaml
       sed -i "s/meshdemons_version/${meshdemons_version}/g" app.yaml
