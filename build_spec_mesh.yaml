@@ -12,7 +12,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemons_version=meshdemons-v8
+      export meshdemons_version=meshdemons-v9
       sed -i "s/meshdemons_version/${meshdemons_version}/g" vault.yaml
       sed -i "s/meshdemons_version/${meshdemons_version}/g" secret.yaml
       sed -i "s/meshdemons_version/${meshdemons_version}/g" app.yaml
@@ -22,7 +22,6 @@ steps:
       ./kubectl create -f vault.yaml
       ./kubectl create -f secret.yaml
       ./kubectl label namespace $meshdemons_version servicemesh.oci.oracle.com/sidecar-injection=enabled
-      #./kubectl create secret -n $meshdemons_version docker-registry amsocirsecret --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com'  --docker-password 'Y}SMSjCO02X5o){e.(-K'  --docker-server 'ams.ocir.io'
       ./kubectl create -f app.yaml
       sleep 120
       ./kubectl create -f meshify-app.yaml
