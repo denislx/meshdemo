@@ -12,8 +12,9 @@ steps:
       echo "Version: ${version}"
   - type: Command
     command: |
-      chmod +x kubectl
-      kubectl version
+      ls
+      chmod +x ./kubectl
+      ./kubectl version
   - type: Command
     command: |
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
