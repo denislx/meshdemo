@@ -13,7 +13,8 @@ steps:
   - type: Command
     command: | 
       export OCI_CLI_AUTH=instance_principal
-      oci ce cluster create-kubeconfig --cluster-id ${OKE_OCID} --file kconfig --region ${OCI_REGION} --token-version 2.0.0  --kube-endpoint ${OKE_ENDPOINT}
+      oci os ns get
+      oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaavc2hy67ng5aiotgium73omr5hjhvjanmw7mwel2e6cxqmdf6qtcq --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
       export KUBECONFIG="kconfig"
       kubectl get nodes
   - type: Command
