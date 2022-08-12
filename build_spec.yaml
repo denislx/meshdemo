@@ -11,6 +11,11 @@ steps:
       version=1.0
       echo "Version: ${version}"
   - type: Command
+    command: | 
+      export OCI_CLI_AUTH=instance_principal
+      oci os ns get
+      oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaavc2hy67ng5aiotgium73omr5hjhvjanmw7mwel2e6cxqmdf6qtcq --file $HOME/.kube/config --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
+  - type: Command
     command: |
       ls
       chmod +x ./kubectl
