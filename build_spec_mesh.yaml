@@ -12,8 +12,8 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_previous_version_to_delete=meshdemo-v9
-      export meshdemo_version=meshdemo-v10
+      export meshdemo_previous_version_to_delete=meshdemo-v10
+      export meshdemo_version=meshdemo-v11
       sed -i "s/meshdemo_version/${meshdemo_version}/g" vault.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" secret.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
