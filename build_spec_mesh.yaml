@@ -12,7 +12,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_version=meshdemo-v12
+      export meshdemo_version=meshdemo-v13
       sed -i "s/meshdemo_version/${meshdemo_version}/g" vault.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" secret.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
@@ -30,12 +30,14 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_previous_version_to_delete=meshdemo-v11
+      export meshdemo_previous_version_to_delete=meshdemo-v12
+      export meshdemo_previous_version_to_delete_ocid=ocid1.mesh.oc1.eu-amsterdam-1.amaaaaaauevftmqa7qn27zosjp3j2bob6l2eb25adfc2lnfuhl26z7npmlfq
       if [ -n "${meshdemo_previous_version_to_delete}" ]; then
-        ./kubectl delelete ns $meshdemo_previous_version_to_delete
+        ./kubectl delete ns $meshdemo_previous_version_to_delete
         sleep 60
         ./kubectl get namespace $meshdemo_previous_version_to_delete -o json > out.json                          
         sed -i 's/"kubernetes"//g' ./out.json                                                              
         ./kubectl replace --raw "/api/v1/namespaces/${meshdemo_previous_version_to_delete}/finalize" -f ./out.json 
-        # need to also delete manually from cloud console
+        oci service-mesh mesh delete --force --mesh-id $meshdemo_previous_version_to_delete_ocid
+
       fi
