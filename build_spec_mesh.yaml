@@ -12,8 +12,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_previous_version_to_delete=meshdemo-v10
-      export meshdemo_version=meshdemo-v11
+      export meshdemo_version=meshdemo-v12
       sed -i "s/meshdemo_version/${meshdemo_version}/g" vault.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" secret.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
@@ -27,11 +26,16 @@ steps:
       sleep 120
       ./kubectl create -f meshify-app.yaml
       ./kubectl create -f bind-app.yaml
+  - type: Command
+    command: |
+      chmod +x ./kubectl
+      export KUBECONFIG="kconfig"
+      export meshdemo_previous_version_to_delete=meshdemo-v11
       if [ -n "${meshdemo_previous_version_to_delete}" ]; then
         ./kubectl delelete ns $meshdemo_previous_version_to_delete
         sleep 60
-        kubectl get namespace $meshdemo_previous_version_to_delete -o json > out.json                          
+        ./kubectl get namespace $meshdemo_previous_version_to_delete -o json > out.json                          
         sed -i 's/"kubernetes"//g' ./out.json                                                              
-        kubectl replace --raw "/api/v1/namespaces/${meshdemo_previous_version_to_delete}/finalize" -f ./out.json 
+        ./kubectl replace --raw "/api/v1/namespaces/${meshdemo_previous_version_to_delete}/finalize" -f ./out.json 
         # need to also delete manually from cloud console
       fi
