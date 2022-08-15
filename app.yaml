@@ -92,7 +92,7 @@ spec:
       serviceAccountName: meshdemo-home
       containers:
         - name: home
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:1.1
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
@@ -123,7 +123,7 @@ spec:
       serviceAccountName: meshdemo-home
       containers:
         - name: home
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:1.1
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
