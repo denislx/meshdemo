@@ -1,11 +1,14 @@
 const http = require("http");
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+var ip = require("ip");
+
+console.log(ip.address());
 
 app.get('/free', (req, res) => {
   var resp = {};
   var options = {
-        host: 'localhost',
+        host: ip.address(),
         port: 3010,
         path: '/free',
         method: 'GET',
@@ -27,7 +30,7 @@ app.get('/free', (req, res) => {
 app.get('/pro', (req, res) => {
   var resp = {};
   var options = {
-        host: 'localhost',
+        host: ip.address(),
         port: 3010,
         path: '/pro',
         method: 'GET',
@@ -49,7 +52,7 @@ app.get('/pro', (req, res) => {
 app.get('/enterprise', (req, res) => {
   var resp = {};
   var options = {
-        host: 'localhost',
+        host: ip.address(),
         port: 3010,
         path: '/enterprise',
         method: 'GET',
