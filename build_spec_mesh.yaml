@@ -13,7 +13,7 @@ steps:
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       export version=latest
-      export meshdemo_version=meshdemo-v15
+      export meshdemo_version=meshdemo-v16
       sed -i "s/tag/${version}/g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
@@ -28,7 +28,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_previous_version_to_delete=meshdemo-v14
+      export meshdemo_previous_version_to_delete=meshdemo-v15
       if [ -n "${meshdemo_previous_version_to_delete}" ]; then
         ./kubectl delete ns $meshdemo_previous_version_to_delete &
         sleep 120

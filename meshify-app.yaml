@@ -66,6 +66,41 @@ spec:
     type: DNS
     hostname: home-v2
 ---
+kind: VirtualService
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: price
+  namespace: meshdemo_version
+spec:
+  mesh:
+    ref:
+      name: meshdemo_version
+  defaultRoutingPolicy:
+    type: UNIFORM
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  hosts:
+    - price:3010
+    - price
+---
+kind: VirtualDeployment
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: price-v1
+  namespace: meshdemo_version
+spec:
+  virtualService:
+    ref:
+      name: price
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  listener:
+    - port: 3010
+      protocol: HTTP
+  accessLogging:
+    isEnabled: true
+  serviceDiscovery:
+    type: DNS
+    hostname: price-v1
+---
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: VirtualServiceRouteTable
 metadata:
@@ -173,4 +208,13 @@ spec:
         virtualService:
           ref:
             name: home
+    - action: ALLOW
+      source:
+        virtualService:
+          ref:
+            name: home
+      destination:
+        virtualService:
+          ref:
+            name: price
 ---
