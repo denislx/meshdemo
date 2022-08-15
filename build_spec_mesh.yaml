@@ -31,12 +31,11 @@ steps:
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       export meshdemo_previous_version_to_delete=meshdemo-v13
-      export meshdemo_previous_version_to_delete_ocid=ocid1.mesh.oc1.eu-amsterdam-1.amaaaaaauevftmqaqlte7wkknwrthcdq4xp2tilfibdvpdobrvhja7c7coza
       if [ -n "${meshdemo_previous_version_to_delete}" ]; then
         ./kubectl delete ns $meshdemo_previous_version_to_delete &
         sleep 120
         ./kubectl get namespace $meshdemo_previous_version_to_delete -o json > out.json                          
         sed -i 's/"kubernetes"//g' ./out.json                                                              
         ./kubectl replace --raw "/api/v1/namespaces/${meshdemo_previous_version_to_delete}/finalize" -f ./out.json 
-        oci service-mesh mesh delete --force --mesh-id $meshdemo_previous_version_to_delete_ocid
+        # delete Mesh from Cloud UI manually
       fi
