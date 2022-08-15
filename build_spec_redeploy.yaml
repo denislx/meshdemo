@@ -1,0 +1,20 @@
+version: 0.1             
+component: build
+timeoutInSeconds: 5000
+shell: bash
+env:
+  exportedVariables:
+  steps:
+  - type: Command
+    command: | 
+      oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaavc2hy67ng5aiotgium73omr5hjhvjanmw7mwel2e6cxqmdf6qtcq 
+--file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
+  - type: Command
+    command: |
+      chmod +x ./kubectl
+      export KUBECONFIG="kconfig"
+      export meshdemo_version=meshdemo-v14
+      sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
+      ./kubectl delete deployment home-v1 -n $meshdemo_version
+      ./kubectl delete deployment home-v2 -n $meshdemo_version
+      ./kubectl create -f app.yaml
