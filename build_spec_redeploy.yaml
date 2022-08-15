@@ -16,7 +16,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_version=meshdemo-v14
+      export meshdemo_version=meshdemo-v15
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
       sed -i "s/tag/${version}/g" app.yaml
       ./kubectl delete deployment home-v1 -n $meshdemo_version
