@@ -130,3 +130,72 @@ spec:
           securityContext:
             runAsUser: 1000
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: price
+  namespace: meshdemo_version
+  labels:
+    app: price
+    service: price
+spec:
+  ports:
+    - port: 3010
+      name: http
+  selector:
+    app: price
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: price-v1
+  namespace: meshdemo_version
+  labels:
+    app: price
+    service: price
+spec:
+  ports:
+    - port: 3010
+      name: http
+  selector:
+    app: price
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: meshdemo-price
+  namespace: meshdemo_version
+  labels:
+    account: price
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-v1
+  namespace: meshdemo_version
+  labels:
+    app: price
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: price
+      version: v1
+  template:
+    metadata:
+      namespace: meshdemo_version
+      labels:
+        app: price
+        version: v1
+    spec:
+      serviceAccountName: meshdemo-price
+      containers:
+        - name: price
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:tag
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3010
+          securityContext:
+            runAsUser: 1000
+---

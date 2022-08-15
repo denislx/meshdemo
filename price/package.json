@@ -1,8 +1,8 @@
 {
-  "name": "meshdemo home component",
+  "name": "meshdemo price component",
   "version": "1.0.0",
-  "description": "home microservice for meshdemo",
-  "main": "home.js",
+  "description": "price microservice for meshdemo",
+  "main": "price.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

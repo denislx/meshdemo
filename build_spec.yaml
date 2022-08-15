@@ -15,6 +15,9 @@ steps:
       cd ./home/
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${version}
+      cd ../price/
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest .
+      docker tag ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${version}
 outputArtifacts:
   - name: meshdemo-homesvc-latest
     type: DOCKER_IMAGE
@@ -22,3 +25,9 @@ outputArtifacts:
   - name: meshdemo-homesvc
     type: DOCKER_IMAGE
     location: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc
+  - name: meshdemo-pricesvc-latest
+    type: DOCKER_IMAGE
+    location: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest
+  - name: meshdemo-pricesvc
+    type: DOCKER_IMAGE
+    location: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc
