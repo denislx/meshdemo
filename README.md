@@ -2,4 +2,4 @@
 
 ## OCI mesh stuff getting done here.
 
-v1.0 has only one home version that is configured as home v1 and v2 and load goes only to v1. 
+v2 has two home versions that is configured as home v1 and v2 and load routed 50-50 between them
