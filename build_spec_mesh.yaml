@@ -13,14 +13,10 @@ steps:
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       export meshdemo_version=meshdemo-v14
-      sed -i "s/meshdemo_version/${meshdemo_version}/g" vault.yaml
-      sed -i "s/meshdemo_version/${meshdemo_version}/g" secret.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
       ./kubectl create namespace $meshdemo_version
-      ./kubectl create -f vault.yaml
-      ./kubectl create -f secret.yaml
       ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
       ./kubectl create -f app.yaml
       sleep 120
