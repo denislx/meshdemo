@@ -55,11 +55,11 @@
                 <h4 class="my-0 fw-normal">Free</h4>
               </div>
               <div class="card-body">
-                <h1 class="card-title pricing-card-title">${{ data.free.monthly }}<small class="text-muted fw-light">/mo</small></h1>
+                <h1 class="card-title pricing-card-title">${{ data.free.price.monthly }}<small class="text-muted fw-light">/mo</small></h1>
                 <ul class="list-unstyled mt-3 mb-4">
-                  <li>10 users included</li>
-                  <li>2 GB of storage</li>
-                  <li>Email support</li>
+                  <li>{{ data.free.price.users }} users included</li>
+                  <li>{{ data.free.price.storage }} GB of storage</li>
+                  <li>{{ data.free.price.support }} support</li>
                   <li>Help center access</li>
                 </ul>
                 <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
@@ -72,11 +72,11 @@
                 <h4 class="my-0 fw-normal">Pro</h4>
               </div>
               <div class="card-body">
-                <h1 class="card-title pricing-card-title">${{ data.pro.monthly }}<small class="text-muted fw-light">/mo</small></h1>
+                <h1 class="card-title pricing-card-title">${{ data.pro.price.monthly }}<small class="text-muted fw-light">/mo</small></h1>
                 <ul class="list-unstyled mt-3 mb-4">
-                  <li>20 users included</li>
-                  <li>10 GB of storage</li>
-                  <li>Priority email support</li>
+                  <li>{{ data.pro.price.users }} users included</li>
+                  <li>{{ data.pro.price.storage }} GB of storage</li>
+                  <li>{{ data.pro.price.support }} support</li>
                   <li>Help center access</li>
                 </ul>
                 <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
@@ -89,11 +89,11 @@
                 <h4 class="my-0 fw-normal">Enterprise</h4>
               </div>
               <div class="card-body">
-                <h1 class="card-title pricing-card-title">${{ data.enterprise.monthly }}<small class="text-muted fw-light">/mo</small></h1>
+                <h1 class="card-title pricing-card-title">${{ data.enterprise.price.monthly }}<small class="text-muted fw-light">/mo</small></h1>
                 <ul class="list-unstyled mt-3 mb-4">
-                  <li>30 users included</li>
-                  <li>15 GB of storage</li>
-                  <li>Phone and email support</li>
+                  <li>{{ data.enterprise.price.users }} users included</li>
+                  <li>{{ data.enterprise.price.storage }} GB of storage</li>
+                  <li>{{ data.enterprise.price.support }} support</li>
                   <li>Help center access</li>
                 </ul>
                 <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
@@ -117,42 +117,60 @@
             <tbody>
               <tr>
                 <th scope="row" class="text-start">Public</th>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.public"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.free.options.public"></td> 
+                <td v-if="data.pro.options.public"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.pro.options.public"></td>
+                <td v-if="data.enterprise.options.public"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.public"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Private</th>
-                <td></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.private"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.free.options.private"></td> 
+                <td v-if="data.pro.options.private"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.pro.options.private"></td>
+                <td v-if="data.enterprise.options.private"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.private"></td>
               </tr>
             </tbody>
 
             <tbody>
               <tr>
                 <th scope="row" class="text-start">Permissions</th>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.permissions"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.free.options.permissions"></td> 
+                <td v-if="data.pro.options.permissions"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.pro.options.permissions"></td>
+                <td v-if="data.enterprise.options.permissions"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.permission"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Sharing</th>
-                <td></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.sharing"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.free.options.sharing"></td> 
+                <td v-if="data.pro.options.sharing"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.pro.options.sharing"></td>
+                <td v-if="data.enterprise.options.sharing"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.sharing"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Unlimited members</th>
-                <td></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.unlimited"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.free.options.unlimited"></td> 
+                <td v-if="data.pro.options.unlimited"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.pro.options.unlimited"></td>
+                <td v-if="data.enterprise.options.unlimited"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.unlimited"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Extra security</th>
-                <td></td>
-                <td></td>
-                <td><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.extrasec"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.free.options.extrasec"></td> 
+                <td v-if="data.pro.options.extrasec"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.pro.options.extrasec"></td>
+                <td v-if="data.enterprise.options.extrasec"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.extrasec"></td>
               </tr>
             </tbody>
           </table>

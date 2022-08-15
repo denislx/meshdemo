@@ -1,4 +1,4 @@
-var data = { free: {}, pro: {}, enterprise: {} };
+var data = { free: { price : {}, options : {} }, pro: { price : {}, options : {} }, enterprise: { price : {}, options : {} } };
 
 
 var pricing = new Vue({
@@ -6,8 +6,14 @@ var pricing = new Vue({
   data: { data },
   mounted () {
     data.free = {};
+    data.free.price = {};
+    data.free.options = {};
     data.pro = {};
+    data.pro.price = {};
+    data.pro.options = {};
     data.enterprise = {};
+    data.enterprise.price = {};
+    data.enterprise.options = {};
     getPriceFree();
     getPricePro();
     getPriceEnterprise();
@@ -21,7 +27,7 @@ function getPriceFree(callback) {
       .get('/free')
       .then(resp => 
             {        
-                data.free = resp.data.price;
+                data.free = resp.data;
                 return callback;
             }
         )
@@ -29,7 +35,7 @@ function getPriceFree(callback) {
             console.log(error)
         })
      .finally(() => { 
-            console.log("Price free " + data.free.monthly);
+            console.log(data.free);
         })
 }
 
@@ -38,7 +44,7 @@ function getPricePro(callback) {
       .get('/pro')
       .then(resp => 
             {        
-                data.pro = resp.data.price;
+                data.pro = resp.data;
                 return callback;
             }
         )
@@ -46,7 +52,7 @@ function getPricePro(callback) {
             console.log(error)
         })
      .finally(() => { 
-            console.log("Price pro " + data.pro.monthly);
+            console.log(data.pro);
         })
 }
 
@@ -55,7 +61,7 @@ function getPriceEnterprise(callback) {
       .get('/enterprise')
       .then(resp => 
             {        
-                data.enterprise = resp.data.price;
+                data.enterprise = resp.data;
                 return callback;
             }
         )
@@ -63,6 +69,6 @@ function getPriceEnterprise(callback) {
             console.log(error)
         })
      .finally(() => { 
-            console.log("Price enterprise " + data.enterprise.monthly);
+            console.log(data.enterprise);
         })
 }
