@@ -6,7 +6,7 @@ env:
   exportedVariables:
     - version
 steps:
-    - type: Command
+  - type: Command
     command: | 
       echo "Version: ${version}"
   - type: Command
