@@ -117,11 +117,11 @@ spec:
           - virtualDeployment:
               ref:
                 name: home-v1
-            weight: 100
+            weight: 50
           - virtualDeployment:
               ref:
                 name: home-v2
-            weight: 0
+            weight: 50
         isGrpc: false
         path: /
         pathType: PREFIX
