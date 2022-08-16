@@ -13,6 +13,9 @@ steps:
   - type: Command
     command: |
       cd ./home/
+      # SWITCH BETWEEN INDEX - STATIC OR DYNAMIC
+      cp index_static.html index.html
+      #cp index_dynamic.html index.html
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${version}
       cd ../price/

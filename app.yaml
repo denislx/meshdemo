@@ -92,7 +92,7 @@ spec:
       serviceAccountName: meshdemo-home
       containers:
         - name: home
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:ui4whq # last working with calling price component
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
