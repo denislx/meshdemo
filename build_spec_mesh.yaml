@@ -12,9 +12,13 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export version=latest                  # REPLACE WITH TAG
+      export home_v1_version=siqhjq                  # REPLACE WITH TAG
+      export home_v2_version=btfiha                  # REPLACE WITH TAG
+      export price_v1_version=btfiha                  # REPLACE WITH TAG
       export meshdemo_version=meshdemo-v17
-      sed -i "s/tag/${version}/g" app.yaml
+      sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
+      sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
+      sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
