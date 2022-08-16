@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 var ip = require("ip");
-var host = ip.address();
+var host = '10.0.10.20'; //ip.address();
 console.log(host);
 
 app.get('/free', (req, res) => {
