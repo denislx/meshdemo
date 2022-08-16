@@ -77,7 +77,7 @@ metadata:
     app: home
     version: v1
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: home
@@ -108,7 +108,7 @@ metadata:
     app: home
     version: v2
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: home
@@ -177,7 +177,7 @@ metadata:
     app: price
     version: v1
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: price
