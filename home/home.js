@@ -2,16 +2,14 @@ const http = require("http");
 const express = require('express');
 const app = express();
 const path = require('path');
-//var ip = require("ip");
-//console.log(ip.address());
-//var mesh_host = ip.address();
-
-const mesh_host = 'home.meshdemo.io';
+var ip = require("ip");
+var host = ip.address();
+console.log(host);
 
 app.get('/free', (req, res) => {
   var resp = {};
   var options = {
-        host: mesh_host,
+        host: host,
         port: 3010,
         path: '/free',
         method: 'GET',
@@ -33,7 +31,7 @@ app.get('/free', (req, res) => {
 app.get('/pro', (req, res) => {
   var resp = {};
   var options = {
-        host: mesh_host,
+        host: host,
         port: 3010,
         path: '/pro',
         method: 'GET',
@@ -55,7 +53,7 @@ app.get('/pro', (req, res) => {
 app.get('/enterprise', (req, res) => {
   var resp = {};
   var options = {
-        host: mesh_host,
+        host: host,
         port: 3010,
         path: '/enterprise',
         method: 'GET',
