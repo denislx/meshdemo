@@ -13,9 +13,9 @@ steps:
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       export home_v1_version=siqhjq                  # REPLACE WITH TAG
-      export home_v2_version=kkal7a                  # REPLACE WITH TAG
-      export price_v1_version=kkal7a                 # REPLACE WITH TAG
-      export meshdemo_version=meshdemo-v19
+      export home_v2_version=vjy4ja                  # REPLACE WITH TAG
+      export price_v1_version=vjy4ja                 # REPLACE WITH TAG
+      export meshdemo_version=meshdemo-v20
       sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
       sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
       sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
@@ -32,7 +32,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_previous_version_to_delete=meshdemo-v18
+      export meshdemo_previous_version_to_delete=meshdemo-v19
       if [ -n "${meshdemo_previous_version_to_delete}" ]; then
         ./kubectl delete ns $meshdemo_previous_version_to_delete &
         sleep 120

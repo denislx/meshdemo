@@ -1,5 +1,6 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const path = require('path');
 
 app.get('/free', (req, res) => {
   var resp = {};
@@ -52,8 +53,7 @@ app.get('/enterprise', (req, res) => {
   res.send(JSON.stringify(resp));
 });
 
-const path = require('path')
-app.use('/', express.static(path.join(__dirname, 'html/pricing')))
+app.use('/', express.static(path.join(__dirname, 'html/admin')));
 
 app.listen(3010);
 
