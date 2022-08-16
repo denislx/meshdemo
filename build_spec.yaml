@@ -14,8 +14,8 @@ steps:
     command: |
       cd ./home/
       # SWITCH BETWEEN INDEX - STATIC OR DYNAMIC
-      # cp ./html/pricing/index_static.html ./html/pricing/index.html
-      cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
+      cp ./html/pricing/index_static.html ./html/pricing/index.html
+      # cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${version}
       cd ../price/
