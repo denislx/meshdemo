@@ -201,8 +201,8 @@ spec:
   hosts:
     - name: meshdemoAdminHost
       hostnames:
-        - home.meshdemo.io
-        - home.meshdemo.io:3010
+        - admin.meshdemo.io
+        - admin.meshdemo.io:3010
       listeners:
         - port: 3010
           protocol: HTTP
