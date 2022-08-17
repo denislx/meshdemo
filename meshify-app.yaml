@@ -31,25 +31,6 @@ spec:
 kind: VirtualDeployment
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
-  name: home-v1
-  namespace: meshdemo_version
-spec:
-  virtualService:
-    ref:
-      name: home
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
-  listener:
-    - port: 3000
-      protocol: HTTP
-  accessLogging:
-    isEnabled: true
-  serviceDiscovery:
-    type: DNS
-    hostname: home-v1
----
-kind: VirtualDeployment
-apiVersion: servicemesh.oci.oracle.com/v1beta1
-metadata:
   name: home-v2
   namespace: meshdemo_version
 spec:
