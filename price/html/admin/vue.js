@@ -102,7 +102,33 @@ function putPriceFree() {
 }
 
 function putPricePro() {
+    axios
+      .put('/pro/' + JSON.stringify(data.free))
+      .then(resp => 
+            {        
+                console.log("Pro saved ok");
+            }
+        )
+     .catch(error => {
+            console.log(error)
+        })
+     .finally(() => { 
+            console.log(data.free);
+        })
 }
 
 function putPriceEnterprise() {
+    axios
+      .put('/enterprise/' + JSON.stringify(data.free))
+      .then(resp => 
+            {        
+                console.log("Enterprise saved ok");
+            }
+        )
+     .catch(error => {
+            console.log(error)
+        })
+     .finally(() => { 
+            console.log(data.free);
+        })
 }
