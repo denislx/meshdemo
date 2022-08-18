@@ -63,7 +63,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: home-v2
+  name: home-v1
   namespace: meshdemo_version
   labels:
     app: home
