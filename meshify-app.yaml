@@ -221,7 +221,7 @@ metadata:
 spec:
   ingressGateway:
     ref:
-      name: meshdemo-adminm-ingress-gateway
+      name: meshdemo-admin-ingress-gateway
   deployment:
     autoscaling:
       minPods: 1
