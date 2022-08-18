@@ -13,7 +13,7 @@ steps:
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       export home_v1_version=ujyt6a
-      export home_v2_version=3qrdgq
+      export home_v2_version=4smoja
       export price_v1_version=s6vnuq
       export meshdemo_version=meshdemo-124
       if [ -n "${meshdemo_version}" ]; then
