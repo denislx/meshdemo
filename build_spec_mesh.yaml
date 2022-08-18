@@ -12,26 +12,29 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export home_v2_version=s6vnuq                  # REPLACE WITH TAG
-      export price_v1_version=s6vnuq                 # REPLACE WITH TAG
-      export meshdemo_version=meshdemo-108
-      sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
-      sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
-      sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
-      sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
-      sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
-      sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
-      ./kubectl create namespace $meshdemo_version
-      ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
-      ./kubectl create -f app.yaml
-      sleep 120
-      ./kubectl create -f meshify-app.yaml
-      ./kubectl create -f bind-app.yaml
+      export home_v1_version=mtrg6a
+      export home_v2_version=3qrdgq
+      export price_v1_version=s6vnuq
+      export meshdemo_version=meshdemo-120
+      if [ -n "${meshdemo_version}" ]; then
+          sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
+          sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
+          sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
+          ./kubectl create namespace $meshdemo_version
+          ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
+          ./kubectl create -f app.yaml
+          sleep 120
+          ./kubectl create -f meshify-app.yaml
+          ./kubectl create -f bind-app.yaml
+      fi
   - type: Command
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_previous_version_to_delete=meshdemo-107
+      export meshdemo_previous_version_to_delete=meshdemo-119
       if [ -n "${meshdemo_previous_version_to_delete}" ]; then
         ./kubectl delete ns $meshdemo_previous_version_to_delete &
         sleep 120
