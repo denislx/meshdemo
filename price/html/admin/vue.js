@@ -103,7 +103,7 @@ function putPriceFree() {
 
 function putPricePro() {
     axios
-      .put('/pro/' + JSON.stringify(data.free))
+      .put('/pro/' + JSON.stringify(data.pro))
       .then(resp => 
             {        
                 console.log("Pro saved ok");
@@ -119,7 +119,7 @@ function putPricePro() {
 
 function putPriceEnterprise() {
     axios
-      .put('/enterprise/' + JSON.stringify(data.free))
+      .put('/enterprise/' + JSON.stringify(data.enterprise))
       .then(resp => 
             {        
                 console.log("Enterprise saved ok");
