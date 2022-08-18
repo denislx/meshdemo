@@ -14,7 +14,7 @@ steps:
       export KUBECONFIG="kconfig"
       export home_v1_version=ujyt6a
       export home_v2_version=4smoja
-      export price_v1_version=2nthvq
+      export price_v1_version=sy7lzq
       export meshdemo_version=meshdemo-125
       if [ -n "${meshdemo_version}" ]; then
           sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
