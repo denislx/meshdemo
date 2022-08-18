@@ -126,6 +126,27 @@ spec:
         path: /
         pathType: PREFIX
 ---
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+kind: VirtualServiceRouteTable
+metadata:
+  name: price-route-table
+  namespace: meshdemo_version
+spec:
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  virtualService:
+    ref:
+      name: price
+  routeRules:
+    - httpRoute:
+        destinations:
+          - virtualDeployment:
+              ref:
+                name: price-v1
+            weight: 100
+        isGrpc: false
+        path: /
+        pathType: PREFIX
+---
 kind: IngressGateway
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
