@@ -33,6 +33,21 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: home-v1
+  namespace: meshdemo_version
+  labels:
+    app: home
+    service: home
+spec:
+  ports:
+    - port: 3000
+      name: http
+  selector:
+    app: home
+---    
+apiVersion: v1
+kind: Service
+metadata:
   name: home-v2
   namespace: meshdemo_version
   labels:
@@ -45,6 +60,37 @@ spec:
   selector:
     app: home
 ---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-v2
+  namespace: meshdemo_version
+  labels:
+    app: home
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home
+      version: v1
+  template:
+    metadata:
+      namespace: meshdemo_version
+      labels:
+        app: home
+        version: v1
+    spec:
+      serviceAccountName: meshdemo-home
+      containers:
+        - name: home
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag_home_v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          securityContext:
+            runAsUser: 1000
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:

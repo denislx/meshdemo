@@ -16,7 +16,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_version=meshdemo-123
+      #export meshdemo_version=meshdemo-123
       export home_v1_version=$version
       export home_v2_version=3qrdgq
       export price_v1_version=s6vnuq
