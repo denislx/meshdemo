@@ -255,6 +255,7 @@ spec:
             weight: 100
         ingressGatewayHost:
           name: meshdemoHost
+---
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: IngressGatewayRouteTable
 metadata:
