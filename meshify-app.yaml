@@ -245,6 +245,9 @@ spec:
       name: meshdemo-ingress-gateway
   routeRules:
     - httpRoute:
+        path: /
+        pathType: PREFIX
+        isGrpc: false
         destinations:
           - virtualService:
               ref:
@@ -264,6 +267,9 @@ spec:
       name: meshdemo-admin-ingress-gateway
   routeRules:
     - httpRoute:
+        path: /
+        pathType: PREFIX
+        isGrpc: false
         destinations:
           - virtualService:
               ref:
