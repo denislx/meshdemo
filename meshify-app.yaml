@@ -252,9 +252,9 @@ spec:
           - virtualService:
               ref:
                 name: home
+            weight: 100
         ingressGatewayHost:
           name: meshdemoHost
----
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: IngressGatewayRouteTable
 metadata:
@@ -274,6 +274,7 @@ spec:
           - virtualService:
               ref:
                 name: price
+            weight: 100
         ingressGatewayHost:
           name: meshdemoHost
 ---
