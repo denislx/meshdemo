@@ -181,7 +181,7 @@ spec:
     ref:
       name: meshdemo_version
   hosts:
-    - name: meshdemoHost
+    - name: meshdemoAdminHost
       hostnames:
         - admin.meshdemo.io
         - admin.meshdemo.io:3010
@@ -276,7 +276,7 @@ spec:
                 name: price
             weight: 100
         ingressGatewayHost:
-          name: meshdemoHost
+          name: meshdemoAdminHost
 ---
 kind: AccessPolicy
 apiVersion: servicemesh.oci.oracle.com/v1beta1
