@@ -15,7 +15,7 @@ steps:
       export home_v1_version=ujyt6a
       export home_v2_version=4smoja
       export price_v1_version=sy7lzq
-      export meshdemo_version=meshdemo-126
+      export meshdemo_version=meshdemo-127
       if [ -n "${meshdemo_version}" ]; then
           sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
           sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
@@ -34,7 +34,7 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      export meshdemo_previous_version_to_delete=meshdemo-125
+      export meshdemo_previous_version_to_delete=meshdemo-126
       if [ -n "${meshdemo_previous_version_to_delete}" ]; then
         ./kubectl delete ns $meshdemo_previous_version_to_delete &
         sleep 120
