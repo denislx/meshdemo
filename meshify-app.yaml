@@ -118,10 +118,12 @@ spec:
               ref:
                 name: home-v1
             weight: 50
+            port: 3000
           - virtualDeployment:
               ref:
                 name: home-v2
             weight: 50
+            port: 3000
         isGrpc: false
         path: /
         pathType: PREFIX
@@ -143,6 +145,7 @@ spec:
               ref:
                 name: price-v1
             weight: 100
+            port: 3010
         isGrpc: false
         path: /
         pathType: PREFIX
