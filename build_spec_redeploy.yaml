@@ -16,10 +16,10 @@ steps:
     command: |
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      #export meshdemo_version=meshdemo-126
-      export home_v1_version=ujyt6a
+      export meshdemo_version=meshdemo-136
+      export home_v1_version=$version
       export home_v2_version=4smoja
-      export price_v1_version=$version
+      export price_v1_version=sy7lzq
       if [ -n "${meshdemo_version}" ]; then
           sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
           sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
