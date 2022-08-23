@@ -256,6 +256,7 @@ spec:
               ref:
                 name: home
             weight: 100
+            port: 3000
         ingressGatewayHost:
           name: meshdemoHost
 ---
@@ -279,6 +280,7 @@ spec:
               ref:
                 name: price
             weight: 100
+            port: 3010
         ingressGatewayHost:
           name: meshdemoAdminHost
 ---
