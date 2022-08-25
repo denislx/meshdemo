@@ -43,6 +43,14 @@ spec:
   selector:
     app: home
 ---    
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: meshdemo-home
+  namespace: meshdemo_version
+  labels:
+    account: home
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -73,14 +81,6 @@ spec:
             - containerPort: 3000
           securityContext:
             runAsUser: 1000
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: meshdemo-home
-  namespace: meshdemo_version
-  labels:
-    account: home
 ---
 apiVersion: apps/v1
 kind: Deployment
