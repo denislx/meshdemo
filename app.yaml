@@ -1,6 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: meshdemo-ingress
+  namespace: meshdemo_version
+  labels:
+    app: meshdemo_version
+    service: ingress
+spec:
+  ports:
+    - port: 80
+      targetPort: 3000
+      name: http
+  selector:
+    app: home
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: home
   namespace: meshdemo_version
   labels:
