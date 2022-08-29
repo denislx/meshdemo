@@ -43,7 +43,7 @@ outputArtifacts:
     location: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc
   - name: meshdemo-pricesvc-latest
     type: DOCKER_IMAGE
-    location: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc-v1:latest
+    location: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest
   - name: meshdemo-pricesvc
     type: DOCKER_IMAGE
     location: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc
