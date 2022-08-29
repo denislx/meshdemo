@@ -10,31 +10,37 @@ steps:
     command: |
       mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
       echo "Mesh version: ${mesh_version}"
-      home_v1_version=static.1.0
-      home_v2_version=dynamic.1.0
-      price_v1_version=1.0
   - type: Command
     command: |
       # BUILD HOME v1 - STATIC
-      echo ${home_v1_version}
+      echo "Home v1 version: ${home_v1_version}"
       cd ./home/
       cp ./html/pricing/index_static.html ./html/pricing/index.html
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v1_version} .
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
+      docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v1_version}
       # BUILD HOME v2 - DYNAMIC 
-      echo ${home_version_v2}
+      echo "Home v1 version: ${home_v2_version}"
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version} .
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
+      docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version}
       # BUILD PRICE v1 
-      echo ${price_v1_version}
+      echo "Home v1 version: ${home_v1_version}"
       cd ../price/
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${price_v1_version} .
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest .
+      docker tag ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${price_v1_version}
 outputArtifacts:
+  - name: meshdemo-homesvc-latest
+    type: DOCKER_IMAGE
+    location: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest
   - name: meshdemo-homesvc-v1
     type: DOCKER_IMAGE
     location: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc
   - name: meshdemo-homesvc-v2
     type: DOCKER_IMAGE
     location: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc
+  - name: meshdemo-pricesvc-latest
+    type: DOCKER_IMAGE
+    location: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest
   - name: meshdemo-pricesvc-v1
     type: DOCKER_IMAGE
     location: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc
