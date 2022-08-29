@@ -24,7 +24,7 @@ steps:
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version}
       # BUILD PRICE v1 
-      echo "Home v1 version: ${home_v1_version}"
+      echo "Price v1 version: ${price_v1_version}"
       cd ../price/
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${price_v1_version}
