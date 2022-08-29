@@ -10,6 +10,10 @@ steps:
       oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaasljp3fqfq5pt32nnic5qs4njo45dmtaanwq2ccxnyckxcyljtn7q --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
   - type: Command
     command: |
+      echo "Mesh version: ${mesh_version}"
+      echo "Home v1 version: ${home_v1_version}"
+      echo "Home v1 version: ${home_v2_version}"
+      echo "Price v1 version: ${price_v1_version}"
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       if [ -n "${mesh_version}" ]; then
@@ -28,6 +32,7 @@ steps:
       fi
   - type: Command
     command: |
+      yum -y install jq
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       export meshdemo_previous_version_to_delete=$(oci service-mesh mesh list --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | ."display-name"' | tr -d '"')
