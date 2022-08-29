@@ -15,19 +15,19 @@ steps:
       price_v1_version=1.0
   - type: Command
     command: |
-      # BUILD HOME v2 - STATIC
-      echo $home_v1_version
+      # BUILD HOME v1 - STATIC
+      echo ${home_v1_version}
       cd ./home/
       cp ./html/pricing/index_static.html ./html/pricing/index.html
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v1_version}
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v1_version} .
       # BUILD HOME v2 - DYNAMIC 
-      echo $home_version_v2
+      echo ${home_version_v2}
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version}
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version} .
       # BUILD PRICE v1 
-      echo price_v1_version
+      echo ${price_v1_version}
       cd ../price/
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${price_v1_version}
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${price_v1_version} .
 outputArtifacts:
   - name: meshdemo-homesvc-v1
     type: DOCKER_IMAGE
