@@ -9,7 +9,8 @@ env:
 steps:
   - type: Command
     command: |
-      docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
+      echo "PASS: ${docker_pass}"
+      docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p 'Y}SMSjCO02X5o){e.(-K' #${docker_pass}
       # BUILD HOME v1 - STATIC
       echo "Home v1 version: ${home_v1_version}"
       cd ./home/
