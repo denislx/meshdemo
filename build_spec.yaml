@@ -8,10 +8,6 @@ env:
 steps:
   - type: Command
     command: |
-      mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
-      echo "Mesh version: ${mesh_version}"
-  - type: Command
-    command: |
       # BUILD HOME v1 - STATIC
       echo "Home v1 version: ${home_v1_version}"
       cd ./home/
