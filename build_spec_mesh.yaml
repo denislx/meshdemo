@@ -4,7 +4,6 @@ timeoutInSeconds: 5000
 shell: bash
 env:
   exportedVariables:
-    - docker_pass
 steps:
   - type: Command
     command: | 

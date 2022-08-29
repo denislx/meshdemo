@@ -4,13 +4,11 @@ timeoutInSeconds: 5000
 shell: bash
 env:
   exportedVariables:
-    - version
-    - docker_pass
 steps:
   - type: Command
     command: |
       echo "PASS: ${docker_pass}"
-      docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p 'Y}SMSjCO02X5o){e.(-K' #${docker_pass}
+      docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
       # BUILD HOME v1 - STATIC
       echo "Home v1 version: ${home_v1_version}"
       cd ./home/
