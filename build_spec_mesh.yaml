@@ -15,21 +15,22 @@ steps:
       oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaasljp3fqfq5pt32nnic5qs4njo45dmtaanwq2ccxnyckxcyljtn7q --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
   - type: Command
     command: |
-      echo "Mesh version: ${mesh_version}"
+      export meshdemo_version="meshdemo-${mesh_version}"
+      echo "Mesh version: ${meshdemo_version}"
       echo "Home v1 version: ${home_v1_version}"
       echo "Home v1 version: ${home_v2_version}"
       echo "Price v1 version: ${price_v1_version}"
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      if [ -n "${mesh_version}" ]; then
+      if [ -n "${meshdemo_version}" ]; then
           sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
           sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
           sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
-          sed -i "s/meshdemo_version/${mesh_version}/g" app.yaml
-          sed -i "s/meshdemo_version/${mesh_version}/g" meshify-app.yaml
-          sed -i "s/meshdemo_version/${mesh_version}/g" bind-app.yaml
-          ./kubectl create namespace $mesh_version
-          ./kubectl label namespace $mesh_version servicemesh.oci.oracle.com/sidecar-injection=enabled
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
+          ./kubectl create namespace $meshdemo_version
+          ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
           ./kubectl create -f app.yaml
           sleep 120
           ./kubectl create -f meshify-app.yaml
