@@ -6,36 +6,8 @@ env:
   exportedVariables:
 steps:
   - type: Command
-    command: |
-      # Generate Mesh name dynamically
-      mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
-      echo "Mesh version: ${mesh_version}"
-  - type: Command
     command: | 
       oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaasljp3fqfq5pt32nnic5qs4njo45dmtaanwq2ccxnyckxcyljtn7q --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
-  - type: Command
-    command: |
-      export meshdemo_version="meshdemo-${mesh_version}"
-      echo "Mesh version: ${meshdemo_version}"
-      echo "Home v1 version: ${home_v1_version}"
-      echo "Home v1 version: ${home_v2_version}"
-      echo "Price v1 version: ${price_v1_version}"
-      chmod +x ./kubectl
-      export KUBECONFIG="kconfig"
-      if [ -n "${meshdemo_version}" ]; then
-          sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
-          sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
-          sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
-          sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
-          sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
-          sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
-          ./kubectl create namespace $meshdemo_version
-          ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
-          ./kubectl create -f app.yaml
-          sleep 120
-          ./kubectl create -f meshify-app.yaml
-          ./kubectl create -f bind-app.yaml
-      fi
   - type: Command
     command: |
       yum -y install jq
@@ -90,4 +62,30 @@ steps:
         export mesh_to_delete_id=$(oci service-mesh mesh list --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"')
         echo "Deleting mesh ${meshdemo_previous_version_to_delete}"
         oci service-mesh mesh delete --mesh-id $meshdemo_previous_version_to_delete_id --force
+      fi
+  - type: Command
+    command: |
+      # Generate Mesh name dynamically
+      mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
+      echo "Mesh version: ${mesh_version}"
+      export meshdemo_version="meshdemo-${mesh_version}"
+      echo "Meshdemo: ${meshdemo_version}"
+      echo "Home v1 version: ${home_v1_version}"
+      echo "Home v1 version: ${home_v2_version}"
+      echo "Price v1 version: ${price_v1_version}"
+      chmod +x ./kubectl
+      export KUBECONFIG="kconfig"
+      if [ -n "${meshdemo_version}" ]; then
+          sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
+          sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
+          sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
+          sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
+          ./kubectl create namespace $meshdemo_version
+          ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
+          ./kubectl create -f app.yaml
+          sleep 120
+          ./kubectl create -f meshify-app.yaml
+          ./kubectl create -f bind-app.yaml
       fi
