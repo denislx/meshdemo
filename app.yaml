@@ -85,6 +85,8 @@ spec:
             - containerPort: 3000
           securityContext:
             runAsUser: 1000
+      imagePullSecrets:
+        - name: amsocirsecret
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -116,6 +118,8 @@ spec:
             - containerPort: 3000
           securityContext:
             runAsUser: 1000
+      imagePullSecrets:
+        - name: amsocirsecret
 ---
 apiVersion: v1
 kind: Service
@@ -187,4 +191,6 @@ spec:
             - containerPort: 3010
           securityContext:
             runAsUser: 1000
+      imagePullSecrets:
+        - name: amsocirsecret
 ---

@@ -5,27 +5,24 @@ shell: bash
 env:
   exportedVariables:
     - version
+    - docker_pass
 steps:
   - type: Command
     command: |
+      docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
       # BUILD HOME v1 - STATIC
       echo "Home v1 version: ${home_v1_version}"
       cd ./home/
       cp ./html/pricing/index_static.html ./html/pricing/index.html
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v1_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v1_version}
-  - type: Command
-    command: |
       # BUILD HOME v2 - DYNAMIC 
       echo "Home v2 version: ${home_v2_version}"
-      cd ./home/
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version}
-  - type: Command
-    command: |
       # BUILD PRICE v1 
       echo "Price v1 version: ${price_v1_version}"
-      cd ./price/
+      cd ../price/
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${price_v1_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${price_v1_version}
