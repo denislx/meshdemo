@@ -14,11 +14,15 @@ steps:
       cp ./html/pricing/index_static.html ./html/pricing/index.html
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v1_version}
+  - type: Command
+    command: |
       # BUILD HOME v2 - DYNAMIC 
-      echo "Home v1 version: ${home_v2_version}"
+      echo "Home v2 version: ${home_v2_version}"
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest .
       docker tag ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:latest ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${home_v2_version}
+  - type: Command
+    command: |
       # BUILD PRICE v1 
       echo "Price v1 version: ${price_v1_version}"
       cd ../price/
