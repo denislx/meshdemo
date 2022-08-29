@@ -28,37 +28,37 @@ steps:
           echo "Deleting $line"
           oci service-mesh virtual-service-route-table delete --virtual-service-route-table-id  $line --force
         done <delete.out
-        sleep 60
+        sleep 20
         oci service-mesh virtual-deployment list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
         while read line; do
           echo "Deleting $line"
           oci service-mesh virtual-deployment delete --virtual-deployment-id $line --force
         done <delete.out
-        sleep 60
+        sleep 20
         oci service-mesh virtual-service list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
         while read line; do
           echo "Deleting $line"
           oci service-mesh virtual-service delete --virtual-service-id $line --force
         done <delete.out
-        sleep 60
+        sleep 20
         oci service-mesh access-policy list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
         while read line; do
           echo "Deleting $line"
           oci service-mesh access-policy delete --access-policy-id $line --force
         done <delete.out
-        sleep 60
+        sleep 20
         oci service-mesh ingress-gateway-route-table list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
         while read line; do
           echo "Deleting $line"
           oci service-mesh ingress-gateway-route-table delete --ingress-gateway-route-table-id $line --force
         done <delete.out
-        sleep 60
+        sleep 5
         oci service-mesh ingress-gateway list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
         while read line; do
           echo "Deleting $line"
           oci service-mesh ingress-gateway delete --ingress-gateway-id $line --force
         done <delete.out
-        sleep 60
+        sleep 20
         export mesh_to_delete_id=$(oci service-mesh mesh list --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"')
         echo "Deleting mesh ${meshdemo_previous_version_to_delete}"
         oci service-mesh mesh delete --mesh-id $meshdemo_previous_version_to_delete_id --force
