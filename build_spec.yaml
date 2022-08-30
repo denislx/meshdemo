@@ -10,18 +10,18 @@ steps:
       echo "PASS: ${docker_pass}"
       docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
       # Generate Mesh name dynamically
-      mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
+      export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
       echo "Mesh version: ${mesh_version}"
       # BUILD HOME v1 - STATIC
       cd ./home/
       cp ./html/pricing/index_static.html ./html/pricing/index.html
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${mesh_version} .
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v1-${mesh_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${mesh_version}
       # BUILD HOME v2 - DYNAMIC 
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
-      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${mesh_version} .
+      docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v2-${mesh_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:${mesh_version}
       # BUILD PRICE v1 
       cd ../price/
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${mesh_version} .
-      docker push ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:${mesh_version}
+      docker push ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${mesh_version}
