@@ -93,8 +93,7 @@ steps:
       echo "Mesh version: ${mesh_version}"
       export meshdemo_version="meshdemo-${mesh_version}"
       echo "Meshdemo: ${meshdemo_version}"
-      oci logging agent-configuration list --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
-      oci service-mesh agent-configuration list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
+      oci logging agent-configuration list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
       while read line; do
         echo "$line"
         oci logging agent-configuration delete --config-id $line --force
