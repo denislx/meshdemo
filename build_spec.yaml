@@ -7,8 +7,8 @@ env:
 steps:
   - type: Command
     command: |
-      echo "PASS: ${docker_pass}"
-      docker login ams.ocir.io -u ${docker_user} -p ${docker_pass}
+      export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
+      docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
       # Generate Mesh name dynamically
       export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
       echo "Mesh version: ${mesh_version}"
