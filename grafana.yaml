@@ -257,13 +257,7 @@ data:
           "targets": [
             {
               "exemplar": false,
-              "expr": 
-"clamp_max((sum(rate(envoy_http_ingress_http_downstream_rq_2xx{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity]) 
-+ rate(envoy_http_ingress_http_downstream_rq_3xx{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity]) + 
-rate(envoy_http_ingress_http_downstream_rq_4xx{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) by 
-(virtual_service_name)) / 
-sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) 
-by (virtual_service_name), 1)",
+              "expr": "clamp_max((sum(rate(envoy_http_ingress_http_downstream_rq_2xx{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity]) + rate(envoy_http_ingress_http_downstream_rq_3xx{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity]) + rate(envoy_http_ingress_http_downstream_rq_4xx{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) by (virtual_service_name)) / sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) by (virtual_service_name), 1)",
               "interval": "",
               "legendFormat": "home",
               "refId": "A"
@@ -358,9 +352,7 @@ by (virtual_service_name), 1)",
           "targets": [
             {
               "exemplar": false,
-              "expr": "histogram_quantile(0.95, 
-sum(rate(envoy_http_ingress_http_downstream_rq_time_bucket{virtual_service_name=\"meshdemo_version/home\"}[$latencyGranularity])) 
-by (le))",
+              "expr": "histogram_quantile(0.95, sum(rate(envoy_http_ingress_http_downstream_rq_time_bucket{virtual_service_name=\"meshdemo_version/home\"}[$latencyGranularity])) by (le))",
               "interval": "",
               "legendFormat": "home",
               "refId": "A"
@@ -455,14 +447,7 @@ by (le))",
           "targets": [
             {
               "exemplar": false,
-              "expr": 
-"clamp_max((sum(rate(envoy_http_ingress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) 
-+ rate(envoy_http_ingress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) 
-+ 
-rate(envoy_http_ingress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) 
-by (virtual_deployment_name)) / 
-sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) 
-by (virtual_deployment_name), 1)",
+              "expr": "clamp_max((sum(rate(envoy_http_ingress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) + rate(envoy_http_ingress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) + rate(envoy_http_ingress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) by (virtual_deployment_name)) / sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) by (virtual_deployment_name), 1)",
               "instant": false,
               "interval": "",
               "legendFormat": "v1",
@@ -470,14 +455,7 @@ by (virtual_deployment_name), 1)",
             },
             {
               "exemplar": false,
-              "expr": 
-"clamp_max((sum(rate(envoy_http_ingress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity]) 
-+ rate(envoy_http_ingress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity]) 
-+ 
-rate(envoy_http_ingress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) 
-by (virtual_deployment_name)) / 
-sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) 
-by (virtual_deployment_name), 1)",
+              "expr": "clamp_max((sum(rate(envoy_http_ingress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity]) + rate(envoy_http_ingress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity]) + rate(envoy_http_ingress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) by (virtual_deployment_name)) / sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) by (virtual_deployment_name), 1)",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -574,18 +552,14 @@ by (virtual_deployment_name), 1)",
           "targets": [
             {
               "exemplar": false,
-              "expr": "histogram_quantile(0.95, 
-sum(rate(envoy_http_ingress_http_downstream_rq_time_bucket{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$latencyGranularity])) 
-by (le))",
+              "expr": "histogram_quantile(0.95, sum(rate(envoy_http_ingress_http_downstream_rq_time_bucket{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$latencyGranularity])) by (le))",
               "interval": "",
               "legendFormat": "v1",
               "refId": "A"
             },
             {
               "exemplar": false,
-              "expr": "histogram_quantile(0.95, 
-sum(rate(envoy_http_ingress_http_downstream_rq_time_bucket{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$latencyGranularity])) 
-by (le))",
+              "expr": "histogram_quantile(0.95, sum(rate(envoy_http_ingress_http_downstream_rq_time_bucket{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$latencyGranularity])) by (le))",
               "hide": false,
               "interval": "",
               "legendFormat": "v2",
@@ -681,27 +655,14 @@ by (le))",
           "targets": [
             {
               "exemplar": false,
-              "expr": 
-"clamp_max((sum(rate(envoy_http_egress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) 
-+ rate(envoy_http_egress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) 
-+ rate(envoy_http_egress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) 
-by (virtual_deployment_name)) / 
-sum(rate(envoy_http_egress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) 
-by (virtual_deployment_name), 1)",
+              "expr": "clamp_max((sum(rate(envoy_http_egress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) + rate(envoy_http_egress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity]) + rate(envoy_http_egress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) by (virtual_deployment_name)) / sum(rate(envoy_http_egress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) by (virtual_deployment_name), 1)",
               "interval": "",
               "legendFormat": "v1",
               "refId": "A"
             },
             {
               "exemplar": false,
-              "expr": 
-"clamp_max((sum(rate(envoy_http_egress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity]) 
-+ 
-rate(envoy_http_egress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/reviews-v2\"}[$successRateGranularity]) 
-+ rate(envoy_http_egress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) 
-by (virtual_deployment_name)) / 
-sum(rate(envoy_http_egress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) 
-by (virtual_deployment_name), 1)",
+              "expr": "clamp_max((sum(rate(envoy_http_egress_http_downstream_rq_2xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity]) + rate(envoy_http_egress_http_downstream_rq_3xx{virtual_deployment_name=\"meshdemo_version/reviews-v2\"}[$successRateGranularity]) + rate(envoy_http_egress_http_downstream_rq_4xx{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) by (virtual_deployment_name)) / sum(rate(envoy_http_egress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) by (virtual_deployment_name), 1)",
               "hide": false,
               "interval": "",
               "legendFormat": "v2",
@@ -796,22 +757,14 @@ by (virtual_deployment_name), 1)",
           "targets": [
             {
               "exemplar": false,
-              "expr": 
-"sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) 
-by (virtual_service_name) / 
-sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) 
-by (virtual_service_name)",
+              "expr": "sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v1\"}[$successRateGranularity])) by (virtual_service_name) / sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) by (virtual_service_name)",
               "interval": "",
               "legendFormat": "v1",
               "refId": "A"
             },
             {
               "exemplar": false,
-              "expr": 
-"sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) 
-by (virtual_service_name) / 
-sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) 
-by (virtual_service_name)",
+              "expr": "sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_deployment_name=\"meshdemo_version/home-v2\"}[$successRateGranularity])) by (virtual_service_name) / sum(rate(envoy_http_ingress_http_downstream_rq_total{virtual_service_name=\"meshdemo_version/home\"}[$successRateGranularity])) by (virtual_service_name)",
               "hide": false,
               "interval": "",
               "legendFormat": "v2",
