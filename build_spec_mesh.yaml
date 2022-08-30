@@ -70,21 +70,16 @@ steps:
       echo "Mesh version: ${mesh_version}"
       export meshdemo_version="meshdemo-${mesh_version}"
       echo "Meshdemo: ${meshdemo_version}"
-      echo "Home v1 version: ${home_v1_version}"
-      echo "Home v1 version: ${home_v2_version}"
-      echo "Price v1 version: ${price_v1_version}"
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       if [ -n "${meshdemo_version}" ]; then
-          sed -i "s/tag_home_v1/${home_v1_version}/g" app.yaml
-          sed -i "s/tag_home_v2/${home_v2_version}/g" app.yaml
-          sed -i "s/tag_price_v1/${price_v1_version}/g" app.yaml
+          sed -i "s/tag/${mesh_version}/g" app.yaml
           sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
           sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
           sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
           ./kubectl create namespace $meshdemo_version
           ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
-          kubectl create secret docker-registry amsocirsecret -n $meshdemo_version --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' --docker-password ${docker_pass} --docker-server 'ams.ocir.io' 
+          ./kubectl create secret docker-registry amsocirsecret -n $meshdemo_version --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' --docker-password ${docker_pass} --docker-server 'ams.ocir.io' 
           ./kubectl create -f app.yaml
           sleep 120
           ./kubectl create -f meshify-app.yaml

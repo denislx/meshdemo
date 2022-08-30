@@ -79,7 +79,7 @@ spec:
       serviceAccountName: meshdemo-home
       containers:
         - name: home
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag_home_v1
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
@@ -112,7 +112,7 @@ spec:
       serviceAccountName: meshdemo-home
       containers:
         - name: home
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag_home_v2
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
@@ -185,7 +185,7 @@ spec:
       serviceAccountName: meshdemo-price
       containers:
         - name: price
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:tag_price_v1
+          image: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3010
