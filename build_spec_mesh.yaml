@@ -86,3 +86,25 @@ steps:
           ./kubectl create -f meshify-app.yaml
           ./kubectl create -f bind-app.yaml
       fi
+  - type: Command
+    command: |
+      # Generate Mesh name for logging dynamically
+      export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
+      echo "Mesh version: ${mesh_version}"
+      export meshdemo_version="meshdemo-${mesh_version}"
+      echo "Meshdemo: ${meshdemo_version}"
+      oci logging agent-configuration list --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+      oci service-mesh agent-configuration list --all --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | .id' | tr -d '"' > delete.out
+      while read line; do
+        echo "$line"
+        oci logging agent-configuration delete --config-id $line --force
+      done <delete.out
+      sed -i "s/meshdemo_version/${meshdemo_version}/g" logconfig.json
+      sed -i "s/meshdemo_version/${meshdemo_version}/g" grafana.yaml
+      oci logging agent-configuration create --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --is-enabled true --service-configuration file://logconfig.json --display-name MeshDemoLoggingAgent --description "Custom agent config for meshdemo" --group-association '{"groupList": ["ocid1.dynamicgroup.oc1..aaaaaaaajuhwx6zv2mygnv2t4wjbzfmebrifuspwc5ure362hmc4ushynn6q"]}'
+      chmod +x ./kubectl
+      export KUBECONFIG="kconfig"
+      ./kubectl delete ns monitoring
+      ./kubectl create ns monitoring
+      ./kubectl apply -f prometheus.yaml
+      ./kubectl apply -f grafana.yaml
