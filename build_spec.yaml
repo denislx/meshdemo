@@ -92,20 +92,18 @@ steps:
       echo "Meshdemo: ${meshdemo_version}"
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
-      if [ -n "${meshdemo_version}" ]; then
-          sed -i "s/tag/${mesh_version}/g" app.yaml
-          sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
-          sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
-          sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
-          ./kubectl create namespace $meshdemo_version
-          ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
-          export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
-          ./kubectl create secret docker-registry amsocirsecret -n $meshdemo_version --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' --docker-password ${docker_pass} --docker-server 'ams.ocir.io' 
-          ./kubectl create -f app.yaml
-          sleep 120
-          ./kubectl create -f meshify-app.yaml
-          ./kubectl create -f bind-app.yaml
-      fi
+      sed -i "s/tag/${mesh_version}/g" app.yaml
+      sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
+      sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
+      sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
+      ./kubectl create namespace $meshdemo_version
+      ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
+      export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
+      ./kubectl create secret docker-registry amsocirsecret -n $meshdemo_version --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' --docker-password ${docker_pass} --docker-server 'ams.ocir.io' 
+      ./kubectl create -f app.yaml
+      sleep 120
+      ./kubectl create -f meshify-app.yaml
+      ./kubectl create -f bind-app.yaml
   - type: Command
     command: |
       # Generate Mesh name for logging dynamically
