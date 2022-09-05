@@ -28,6 +28,7 @@ steps:
           cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
           docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v2-${version} .
           docker push ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v2-${version}
+          cd ..
           # BUILD PRICE v1 
           sed -i "s/meshdemo_version/${meshdemo_version}/g" atp.yaml
           sed -i "s/atp_pwd/${password}/g" ./price/price.js
