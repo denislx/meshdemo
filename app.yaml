@@ -25,7 +25,22 @@ spec:
         secretName: wallet-secret
   freeformTags:
   definedTags: 
----  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oracledb
+  namespace: meshdemo-6ynr2q 
+  labels:
+    app: oracledb
+    service: oracledb
+spec:
+  ports:
+    - port: 1521
+      name: http
+  selector:
+    app: oracledb
+---
 apiVersion: v1
 kind: Service
 metadata:

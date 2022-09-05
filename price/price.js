@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 
 oracledb.initOracleClient({ libDir: '/instantclient_21_7', configDir: '/Wallet/' });
+app.use('/', express.static(path.join(__dirname, 'html/admin')));
 
 var free = {};
 free.options = {};
