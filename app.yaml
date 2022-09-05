@@ -30,14 +30,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: oracledb
-  namespace: meshdemo-6ynr2q 
+  namespace: meshdemo_version
   labels:
     app: oracledb
     service: oracledb
 spec:
   ports:
     - port: 1521
-      name: http
+      name: tcp
   selector:
     app: oracledb
 ---
