@@ -18,6 +18,6 @@
   "homepage": "https://github.com/mikarinneoracle/meshdemo#readme",
   "dependencies": {
     "express": "^4.18.1",
-    "ip": "^1.1.8"
+    "oracledb": "^5.4.0"
   }
 }
