@@ -30,12 +30,7 @@ steps:
           docker push ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v2-${version}
           cd ..
           # BUILD PRICE v1 
-          sed -i "s/meshdemo_version/${meshdemo_version}/g" atp.yaml
           sed -i "s/atp_pwd/${password}/g" ./price/price.js
-          ./kubectl create namespace ${meshdemo_version}
-          ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
-          ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
-          ./kubectl create -f atp.yaml
           export tries=0
           export atp_status=''
           while [ $tries -le 30 ] && [[ $atp_status != 'Active' ]] 
@@ -53,12 +48,13 @@ steps:
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
-          sed -i "s|SSL_SERVER_DN_MATCH=yes|SSL_SERVER_DN_MATCH=off SSL_VERSION=3.0|g" ./price/Wallet/sqlnet.ora
           cd ./price/
           wget ${instant_client} -q
           docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${version} .
           docker push ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${version}
           cd ..
+          ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
+          ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
           sed -i "s/tag/${version}/g" app.yaml
           sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
           sed -i "s/tag/${version}/g" app.yaml
