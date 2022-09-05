@@ -32,7 +32,7 @@ steps:
           # BUILD PRICE v1 
           cd ../price/
           sed -i "s/meshdemo_version/${meshdemo_version}/g" atp.yaml
-          sed -i "s/atp_pwd/${password}/g" index.js
+          sed -i "s/atp_pwd/${password}/g" price.js
           wget ${instant_client} -q
           ./kubectl create namespace ${meshdemo_version}
           ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
