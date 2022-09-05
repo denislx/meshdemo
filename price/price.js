@@ -3,6 +3,7 @@ const oracledb = require('oracledb');
 const http = require("http");
 const express = require('express');
 const app = express();
+const path = require('path');
 
 oracledb.initOracleClient({ libDir: '/instantclient_21_7', configDir: '/Wallet/' });
 app.use('/', express.static(path.join(__dirname, 'html/admin')));
