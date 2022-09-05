@@ -55,7 +55,6 @@ steps:
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora  
           cd ./price/
           wget ${instant_client} -q
-          ls
           docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${version} .
           docker push ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${version}
           cd ..
