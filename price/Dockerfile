@@ -10,10 +10,10 @@ COPY ["package.json", "package-lock.json*", "./"]
 
 RUN npm install
 
+COPY . .
+
 RUN unzip instantclient-basic-linux.x64-21.7.0.0.0dbru.zip
 
 RUN rm -f instantclient-basic-linux.x64-21.7.0.0.0dbru.zip
-
-COPY . .
 
 CMD [ "node", "price.js" ]
