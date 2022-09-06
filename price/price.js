@@ -120,7 +120,7 @@ async function queryPrice(tier) {
     const options = { outFormat: oracledb.OUT_FORMAT_OBJECT };
     const result = await connection.execute(sql, binds, options);
     const row = result.rows[0];
-    var json = { 'monthly' : JSON.stringify(row.PRICE_MO), 'storage' : JSON.stringify(row.STORAGE), 'users' : JSON.stringify(row.USERS), 'support' : JSON.stringify(row.SUPPORT).replace(/['"]+/g, '') };
+    var json = { 'price' : {'monthly' : JSON.stringify(row.PRICE_MO), 'storage' : JSON.stringify(row.STORAGE), 'users' : JSON.stringify(row.USERS), 'support' : JSON.stringify(row.SUPPORT).replace(/['"]+/g, '') }, options : { } };
     console.log("Query " + tier + ":");
     console.log(json);
     setPrice(tier, json);
@@ -166,7 +166,7 @@ async function updatePrice(tier, json) {
   }
 }
 
-// Tier options are "static", just set the tier price
+// Tier options are "static" in this example, just set the tier price
 function setPrice(tier, json)
 {
   if(tier == 'FREE') free.price = json.price;
