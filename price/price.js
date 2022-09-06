@@ -143,9 +143,9 @@ async function updatePrice(tier, json) {
     connection = await oracledb.getConnection();
     const sql = `UPDATE PRICE SET PRICE_MO = :price, STORAGE = :storage, USERS = :users, SUPPORT = :support WHERE TIER = :tier`;
     const binds = [json.price.monthly, json.price.storage, json.price.users, json.price.support, tier];
-    const options = { outFormat: oracledb.OUT_FORMAT_OBJECT };
-    const result = await connection.execute(sql, binds, options);
+    const result = await connection.execute(sql, binds, { autoCommit: true });
     console.log("Update " + tier + ":");
+    console.log(json);
     console.log(result);
     setPrice(tier, json);
     return json;
