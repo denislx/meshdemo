@@ -36,6 +36,7 @@ enterprise.options.unlimited = 1;
 enterprise.options.extrasec = 1;
 
 app.get('/free', (req, res) => {
+  console.log(free);
   res.send(JSON.stringify(free));
 });
 
@@ -45,6 +46,7 @@ app.put('/free/:json', (req, res) => {
 });
 
 app.get('/pro', (req, res) => {
+  console.log(pro);
   res.send(JSON.stringify(pro));
 });
 
@@ -54,6 +56,7 @@ app.put('/pro/:json', (req, res) => {
 });
 
 app.get('/enterprise', (req, res) => {
+  console.log(enterprise);
   res.send(JSON.stringify(enterprise));
 });
 
@@ -166,9 +169,9 @@ async function updatePrice(tier, json) {
 // Tier options are "static", just set the tier price
 function setPrice(tier, json)
 {
-  if(tier == 'FREE') free.price = json;
-  else if(tier == 'PRO') pro.price = json;
-  else enterprise.price = json;
+  if(tier == 'FREE') free.price = json.price;
+  else if(tier == 'PRO') pro.price = json.price;
+  else enterprise.price = json.price;
 }
 
 async function DDL() {
