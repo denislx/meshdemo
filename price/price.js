@@ -119,7 +119,7 @@ async function queryPrice(tier) {
     console.log(result);
     const row = result.rows[0];
     var json = { 'monthly' : JSON.stringify(row.PRICE_MO), 'storage' : JSON.stringify(row.STORAGE), 'users' : JSON.stringify(row.USERS), 'support' : JSON.stringify(row.SUPPORT).replace(/['"]+/g, '') };
-    console.log("Query " + trier + ":");
+    console.log("Query " + tier + ":");
     console.log(json);
     setPrice(tier, json);
     return json;
