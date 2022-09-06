@@ -1,4 +1,3 @@
----
 kind: Mesh
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
@@ -322,4 +321,15 @@ spec:
         virtualService:
           ref:
             name: price
+    - action: ALLOW
+      source:
+        virtualService:
+          ref:
+            name: price
+      destination:
+        externalService:
+          httpsExternalService:
+            hostnames:
+            -  "*"
+            ports: []
 ---
