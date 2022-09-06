@@ -185,13 +185,13 @@ async function DDL() {
     const sql2 = `create unique index PRICE_TIER_IND on PRICE(TIER)`;
     result = await connection.execute(sql2);
     console.log(result);
-    const sql3 = `INSERT INTO PRICE VALUES ('FREE', 0, 10, 2, 'Email support')`;
+    const sql3 = `INSERT INTO PRICE VALUES ('FREE', 0, 10, 2, 'Email')`;
     result = await connection.execute(sql3,{},{ autoCommit: true });
     console.log(result);
-    const sql4 = `INSERT INTO PRICE VALUES ('PRO', 15, 20, 10, 'Priority email support')`;
+    const sql4 = `INSERT INTO PRICE VALUES ('PRO', 15, 20, 10, 'Priority email')`;
     result = await connection.execute(sql4,{},{ autoCommit: true });
     console.log(result);
-    const sql5 = `INSERT INTO PRICE VALUES ('ENTERPRISE', 29, 30, 15, 'Phone and email support')`;
+    const sql5 = `INSERT INTO PRICE VALUES ('ENTERPRISE', 29, 30, 15, 'Phone and email')`;
     result = await connection.execute(sql5,{},{ autoCommit: true });
     console.log(result);
   } catch (err) {
