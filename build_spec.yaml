@@ -12,6 +12,8 @@ steps:
       # Generate Mesh name dynamically
       export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
       echo "Mesh version: ${mesh_version}"
+      export meshdemo_version="meshdemo-${mesh_version}"
+      echo "Meshdemo: ${meshdemo_version}"
       # BUILD HOME v1 - STATIC
       cd ./home/
       cp ./html/pricing/index_static.html ./html/pricing/index.html
@@ -21,16 +23,44 @@ steps:
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v2-${mesh_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v2-${mesh_version}
-      # BUILD PRICE v1 
-      cd ../price/
+      cd ..
+      # BUILD PRICE v1
+      yum -y install jq
+      chmod +x ./kubectl
+      # Install database via OSOK
+      oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaasljp3fqfq5pt32nnic5qs4njo45dmtaanwq2ccxnyckxcyljtn7q --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
+      export KUBECONFIG="kconfig"
+      sed -i "s/meshdemo_version/${meshdemo_version}/g" ./price/atp.yaml
+      ./kubectl create namespace ${meshdemo_version}
+      ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
+      ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
+      ./kubectl create -f ./price/atp.yaml
+      export tries=0
+      export atp_status=''
+      while [ $tries -le 30 ] && [[ $atp_status != 'Active' ]] 
+      do
+          atp_status=$(./kubectl get AutonomousDatabases -n ${meshdemo_version} -o json | jq '.items[]'.status.status.conditions[].type)
+          if [ "$atp_status" != "" ]; then
+           atp_status=$(./kubectl get AutonomousDatabases -n ${meshdemo_version} -o json | jq '.items[].status.status.conditions[] | select(."type" == "Active") | .type' | tr -d '"')
+          fi
+          echo "atp status: $tries $atp_status"
+          tries=$(( $tries + 1 ))
+          sleep 5
+      done
+      mkdir -p ./price/Wallet
+      ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."tnsnames.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/tnsnames.ora
+      ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
+      ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
+      export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
+      cd ./price/
+      sed -i "s|"?/network/admin"|"./Wallet"|g" ./Wallet/sqlnet.ora      
+      sed -i "s/atp_pwd/${password}/g" ./price.js
+      wget ${instant_client} -q
+      docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${mesh_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${mesh_version}
   - type: Command
-    command: | 
-      oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaasljp3fqfq5pt32nnic5qs4njo45dmtaanwq2ccxnyckxcyljtn7q --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
-  - type: Command
     command: |
-      yum -y install jq
       chmod +x ./kubectl
       export KUBECONFIG="kconfig"
       export meshdemo_previous_version_to_delete=$(oci service-mesh mesh list --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --all | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | ."display-name"' | tr -d '"')
@@ -96,7 +126,6 @@ steps:
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
-      ./kubectl create namespace $meshdemo_version
       ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
       export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
       ./kubectl create secret docker-registry amsocirsecret -n $meshdemo_version --docker-username 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' --docker-password ${docker_pass} --docker-server 'ams.ocir.io' 
@@ -116,6 +145,7 @@ steps:
         echo "$line"
         oci logging agent-configuration delete --config-id $line --force
       done <delete.out
+      sleep 5
       sed -i "s/meshdemo_version/${meshdemo_version}/g" logconfig.json
       sed -i "s/meshdemo_version/${meshdemo_version}/g" grafana.yaml
       oci logging agent-configuration create --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --is-enabled true --service-configuration file://logconfig.json --display-name MeshDemoLoggingAgent --description "Custom agent config for meshdemo" --group-association '{"groupList": ["ocid1.dynamicgroup.oc1..aaaaaaaajuhwx6zv2mygnv2t4wjbzfmebrifuspwc5ure362hmc4ushynn6q"]}'
