@@ -1,4 +1,3 @@
----
 kind: Mesh
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 metadata:
@@ -11,6 +10,60 @@ spec:
   displayName: meshdemo_version
   mtls:
     minimum: PERMISSIVE
+---
+kind: VirtualService
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: oracledb
+  namespace: meshdemo_version
+spec:
+  mesh:
+    ref:
+      name: meshdemo_version
+  defaultRoutingPolicy:
+    type: UNIFORM
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  hosts:
+    - oracledb:1522
+    - oracledb
+---
+kind: VirtualDeployment
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+metadata:
+  name: oracledb
+  namespace: meshdemo_version
+spec:
+  virtualService:
+    ref:
+      name: oracledb
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  listener:
+    - port: 1522
+      protocol: TCP
+  accessLogging:
+    isEnabled: true
+  serviceDiscovery:
+    type: DNS
+    hostname: oracledb
+---
+apiVersion: servicemesh.oci.oracle.com/v1beta1
+kind: VirtualServiceRouteTable
+metadata:
+  name: oracledb-route-table
+  namespace: meshdemo_version
+spec:
+  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  virtualService:
+    ref:
+      name: oracledb
+  routeRules:
+    - tcpRoute:
+        destinations:
+          - virtualDeployment:
+              ref:
+                name: oracledb
+            weight: 100
+            port: 1522
 ---
 kind: VirtualService
 apiVersion: servicemesh.oci.oracle.com/v1beta1
@@ -322,4 +375,13 @@ spec:
         virtualService:
           ref:
             name: price
+    - action: ALLOW
+      source:
+        virtualService:
+          ref:
+            name: price
+      destination:
+        virtualService:
+          ref:
+            name: oracledb
 ---
