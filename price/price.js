@@ -116,8 +116,11 @@ async function queryPrice(tier) {
     const binds = [tier];
     const options = { outFormat: oracledb.OUT_FORMAT_OBJECT };
     const result = await connection.execute(sql, binds, options);
+    console.log(result);
     const row = result.rows[0];
-    var json = { 'monthly' : JSON.stringify(row.PRICE_MO), 'storage' : JSON.stringify(row.STORAGE), 'users' : JSON.stringify(row.USERS), 'support' : JSON.stringify(row.SUPPORT) };
+    var json = { 'monthly' : JSON.stringify(row.PRICE_MO), 'storage' : JSON.stringify(row.STORAGE), 'users' : JSON.stringify(row.USERS), 'support' : JSON.stringify(row.SUPPORT).replace(/['"]+/g, '') };
+    console.log("Query " + trier + ":");
+    console.log(json);
     setPrice(tier, json);
     return json;
   } catch (err) {
@@ -140,9 +143,12 @@ async function updatePrice(tier, json) {
     // Get a connection from the default pool
     connection = await oracledb.getConnection();
     const sql = `UPDATE TIER SET PRICE_MO = :price, STORAGE = :storage, USERS = :users, SUPPORT = :support WHERE TIER = :tier`;
+    console.log("Update " + trier + ":");
+    console.log(sql);
     const binds = [json.price.monthly, json.price.storage, json.price.users, , json.price.support, tier];
     const options = { outFormat: oracledb.OUT_FORMAT_OBJECT };
     const result = await connection.execute(sql, binds, options);
+    console.log(result);
     setPrice(tier, json);
     return json;
   } catch (err) {
