@@ -142,7 +142,7 @@ async function updatePrice(tier, json) {
     // Get a connection from the default pool
     connection = await oracledb.getConnection();
     const sql = `UPDATE PRICE SET PRICE_MO = :price, STORAGE = :storage, USERS = :users, SUPPORT = :support WHERE TIER = :tier`;
-    const binds = [json.price.monthly, json.price.storage, json.price.users, , json.price.support, tier];
+    const binds = [json.price.monthly, json.price.storage, json.price.users, json.price.support, tier];
     const options = { outFormat: oracledb.OUT_FORMAT_OBJECT };
     const result = await connection.execute(sql, binds, options);
     console.log("Update " + tier + ":");
