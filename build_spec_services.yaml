@@ -7,7 +7,6 @@ env:
 steps:
   - type: Command
     command: |
-      yum -y install jq
       export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
       docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
       # Generate Mesh name dynamically
@@ -16,9 +15,6 @@ steps:
       export meshdemo_version=$(oci service-mesh mesh list --compartment-id ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --all | jq '.data.items[] | select(."lifecycle-state" == "ACTIVE") | ."display-name"' | tr -d '"')
       if [ -n "${meshdemo_version}" ]; then
           echo "Mesh: ${meshdemo_version}"
-          chmod +x ./kubectl
-          oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-amsterdam-1.aaaaaaaasljp3fqfq5pt32nnic5qs4njo45dmtaanwq2ccxnyckxcyljtn7q --file kconfig --region eu-amsterdam-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
-          export KUBECONFIG="kconfig"
           # BUILD HOME v1 - STATIC
           cd ./home/
           cp ./html/pricing/index_static.html ./html/pricing/index.html
