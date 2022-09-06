@@ -36,7 +36,7 @@ metadata:
     service: oracledb
 spec:
   ports:
-    - port: 1521
+    - port: 1522
       name: tcp
   selector:
     app: oracledb
