@@ -49,9 +49,12 @@ steps:
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
           cd ./price/Wallet
+          zip * ./Wallet.zip
+          ls
           cd ../..
           # Run Liquibase to Create the database
           sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
+          sh ./create_apex.sh
           cd ./price/
           wget ${instant_client} -q
           docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${version} .
