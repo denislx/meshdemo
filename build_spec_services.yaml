@@ -50,10 +50,11 @@ steps:
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
           cd ./price/Wallet
           zip ./Wallet.zip *
-          cd ../
+          cd ../..
           mdkir ./Wallet
           mv ./price/Wallet/Wallet.zip ./Wallet
           # Run Liquibase to Create the database
+          build_spec_services.yaml
           ls
           ls ./Wallet
           wget ${jdk} -q
