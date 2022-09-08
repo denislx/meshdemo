@@ -85,7 +85,7 @@ if [ -n "${application_id}" ]; then
         printf "APEX_UTIL.PAUSE(2);\n" >> upd_apex_privs.sql;
         printf "end;\n/\n" >> upd_apex_privs.sql;
 
-        printf "set ./Wallet/Wallet.zip\nconn ${schema}/${pwd}@${conn}\n@upd_apex_privs.sql\nlb update -changelog f${application_id}.xml\nexit" > upd_apex.sql
+        printf "set cloudconfig ./Wallet/Wallet.zip\nconn ${schema}/${pwd}@${conn}\n@upd_apex_privs.sql\nlb update -changelog f${application_id}.xml\nexit" > upd_apex.sql
         
         ./sqlcl/bin/sql /nolog @./upd_apex.sql
     else
