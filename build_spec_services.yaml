@@ -50,9 +50,10 @@ steps:
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
           cd ./price/Wallet
           zip ./Wallet.zip *
-          ls
-          cd ../..
+          mv ./Wallet.zip ../
+          cd ../
           # Run Liquibase to Create the database
+          ls
           wget ${jdk} -q
           tar -xzf jdk-11.0.16_linux-x64_bin.tar.gz
           export PATH=./jdk-11.0.16/bin:$PATH
