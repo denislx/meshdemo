@@ -87,5 +87,9 @@ if [ -n "${application_id}" ]; then
         printf "set cloudconfig ./Wallet/Wallet.zip\nconn ${schema}/${pwd}@${conn}\n@upd_apex_privs.sql\nlb update -changelog f${application_id}.xml\nexit" > upd_apex.sql
     fi
 fi
+echo "----------- upd_apex.sql ------------"
 cat upd_apex.sql
+echo "-------- upd_apex_privs.sql ---------"
+cat upd_apex_privs.sql
+echo "-------------------------------------"
 ./sqlcl/bin/sql /nolog @./upd_apex.sql
