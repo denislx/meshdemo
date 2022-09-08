@@ -51,11 +51,25 @@ steps:
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."tnsnames.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/tnsnames.ora
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
-      export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
-      cd ./price/
       sed -i "s|"?/network/admin"|"./Wallet"|g" ./Wallet/sqlnet.ora      
+      cd ./price/Wallet
+      zip ./Wallet.zip *
+      cd ../..
+      mkdir ./Wallet
+      mv ./price/Wallet/Wallet.zip ./Wallet/.
+      # Run Liquibase to Create the database
+      wget ${jdk} -q
+      tar -xzf jdk-11.0.16_linux-x64_bin.tar.gz
+      export PATH=./jdk-11.0.16/bin:$PATH
+      export JAVA_HOME=./jdk-11.0.16
+      wget ${sqlcli_client} -q
+      unzip V1022102-01.zip
+      sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
+      sh ./create_apex.sh
+      cd ./price/
       sed -i "s/atp_pwd/${password}/g" ./price.js
       wget ${instant_client} -q
+      export docker_pass=$(oci secrets secret-bundle get --secret-id ocid1.vaultsecret.oc1.eu-amsterdam-1.amaaaaaauevftmqa2vodnotrpnxe2lutj2foenstze5gzpuxyswnrnrworga --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
       docker login ams.ocir.io -u 'frsxwtjslf35/oracleidentitycloudservice/mika.rinne@oracle.com' -p ${docker_pass}
       docker build -t ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${mesh_version} .
       docker push ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-${mesh_version}
