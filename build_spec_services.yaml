@@ -53,7 +53,7 @@ steps:
           ls
           cd ../..
           # Run Liquibase to Create the database
-          wget ${sqlcli_client}
+          wget ${sqlcli_client} -q
           sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
           sh ./create_apex.sh
           cd ./price/
