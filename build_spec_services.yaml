@@ -51,12 +51,10 @@ steps:
           cd ./price/Wallet
           zip ./Wallet.zip *
           cd ../..
-          mdkir ./Wallet
-          mv ./price/Wallet/Wallet.zip ./Wallet
+          mkdir ./Wallet
+          mv ./price/Wallet/Wallet.zip ./Wallet/.
+          ls ./Wallet/.
           # Run Liquibase to Create the database
-          build_spec_services.yaml
-          ls
-          ls ./Wallet
           wget ${jdk} -q
           tar -xzf jdk-11.0.16_linux-x64_bin.tar.gz
           export PATH=./jdk-11.0.16/bin:$PATH
