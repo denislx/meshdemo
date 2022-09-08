@@ -53,6 +53,10 @@ steps:
           ls
           cd ../..
           # Run Liquibase to Create the database
+          wget ${jdk} -q
+          tar -xzf jdk-11.0.16_linux-x64_bin.tar.gz
+          export PATH=./jdk-11.0.16/bin:$PATH
+          export JAVA_HOME=./jdk-11.0.16
           wget ${sqlcli_client} -q
           unzip V1022102-01.zip
           sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
