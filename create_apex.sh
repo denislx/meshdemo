@@ -36,7 +36,7 @@ fi
 
 printf "\ntables\nexit" >> upd.sql
 cat upd.sql
-sql /nolog @./upd.sql
+./sql /nolog @./upd.sql
 
 if [ -n "${wsname}" ]; then
     printf "set cloudconfig ./Wallet/Wallet.zip\nconn admin/${pwd}@${conn}\n/\n" > upd_apex.sql
@@ -88,4 +88,4 @@ if [ -n "${application_id}" ]; then
     fi
 fi
 cat upd_apex.sql
-sql /nolog @./upd_apex.sql
+./sql /nolog @./upd_apex.sql

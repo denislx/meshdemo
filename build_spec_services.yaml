@@ -49,10 +49,11 @@ steps:
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
           cd ./price/Wallet
-          zip * ./Wallet.zip
+          zip ./Wallet.zip *
           ls
           cd ../..
           # Run Liquibase to Create the database
+          wget ${sqlcli_client}
           sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
           sh ./create_apex.sh
           cd ./price/
