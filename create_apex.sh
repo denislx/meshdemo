@@ -73,6 +73,7 @@ if [ -n "${wsname}" ]; then
     printf "    );\n" >> upd_apex.sql
     printf "    commit;\n" >> upd_apex.sql
     printf "end;\n/\nexit\n" >> upd_apex.sql
+    ./sqlcl/bin/sql /nolog @./upd_apex.sql
 fi
 
 if [ -n "${application_id}" ]; then
@@ -84,12 +85,10 @@ if [ -n "${application_id}" ]; then
         printf "APEX_UTIL.PAUSE(2);\n" >> upd_apex_privs.sql;
         printf "end;\n/\n" >> upd_apex_privs.sql;
 
-        printf "set cloudconfig ./Wallet/Wallet.zip\nconn ${schema}/${pwd}@${conn}\n@upd_apex_privs.sql\nlb update -changelog f${application_id}.xml\nexit" > upd_apex.sql
+        printf "set ./Wallet/Wallet.zip\nconn ${schema}/${pwd}@${conn}\n@upd_apex_privs.sql\nlb update -changelog f${application_id}.xml\nexit" > upd_apex.sql
+        
+        ./sqlcl/bin/sql /nolog @./upd_apex.sql
+    else
+        echo "${application_id} not found. Not copied to Dev${task_id} ${schema}."
     fi
 fi
-echo "----------- upd_apex.sql ------------"
-cat upd_apex.sql
-echo "-------- upd_apex_privs.sql ---------"
-cat upd_apex_privs.sql
-echo "-------------------------------------"
-./sqlcl/bin/sql /nolog @./upd_apex.sql
