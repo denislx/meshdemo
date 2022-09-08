@@ -70,7 +70,7 @@ async function init() {
     // Create a connection pool which will later be accessed via the
     // pool cache as the 'default' pool.
     await oracledb.createPool({
-      user: 'admin',
+      user: 'priceadmin',
       password: 'atp_pwd',
       connectString: 'oracledb_tp'
       // edition: 'ORA$BASE', // used for Edition Based Redefintion
@@ -91,7 +91,7 @@ async function init() {
       // enableStatistics: false // record pool usage for oracledb.getPool().getStatistics() and logStatistics()
     });
     console.log('Connection pool started');
-    DDL();
+    //DDL();
     var res = await queryPrice('FREE');
     console.log(res);
     var res = await queryPrice('PRO');
