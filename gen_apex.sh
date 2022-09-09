@@ -20,4 +20,3 @@ printf "set cloudconfig ./Wallet/Wallet.zip\nconn ${schema}/${pwd}@${conn}\n/\nt
 if [ -n "${application_id}" ]; then
     printf "lb genobject -type apex -applicationid ${application_id} -skipExportDate -expOriginalIds\nexit" >> gen.sql
 fi
-
