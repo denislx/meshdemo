@@ -51,7 +51,7 @@ steps:
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."tnsnames.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/tnsnames.ora
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
-      sed -i "s|"?/network/admin"|"./Wallet"|g" ./Wallet/sqlnet.ora      
+      sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora      
       cd ./price/Wallet
       zip ./Wallet.zip *
       cd ../..
