@@ -8,33 +8,6 @@ const path = require('path');
 oracledb.initOracleClient({ libDir: '/instantclient_21_7', configDir: '/Wallet/' });
 app.use('/', express.static(path.join(__dirname, 'html/admin')));
 
-var free = {};
-free.options = {};
-free.options.public = 1;
-free.options.private = 0;
-free.options.permissions = 1;
-free.options.sharing = 0;
-free.options.unlimited = 0;
-free.options.extrasec = 0;
-
-var pro = {};
-pro.options = {};
-pro.options.public = 1;
-pro.options.private = 1;
-pro.options.permissions = 1;
-pro.options.sharing = 1;
-pro.options.unlimited = 1;
-pro.options.extrasec = 0;
-
-var enterprise = {};
-enterprise.options = {};
-enterprise.options.public = 1;
-enterprise.options.private = 1;
-enterprise.options.permissions = 1;
-enterprise.options.sharing = 1;
-enterprise.options.unlimited = 1;
-enterprise.options.extrasec = 1;
-
 app.get('/free', (req, res) => {
   queryPrice('FREE') .then((json) => {
      console.log(json);
@@ -135,9 +108,33 @@ async function updatePrice(tier, json) {
   }
 }
 
-// Tier options are "static" in this example, this is to set them for json output
+// Tier options are "static" in this example, this is to get them for json output
 async function getOptions(tier)
 {
+  const free = {};
+  free.options = {};
+  free.options.public = 1;
+  free.options.private = 0;
+  free.options.permissions = 1;
+  free.options.sharing = 0;
+  free.options.unlimited = 0;
+  free.options.extrasec = 0;
+  const pro = {};
+  pro.options = {};
+  pro.options.public = 1;
+  pro.options.private = 1;
+  pro.options.permissions = 1;
+  pro.options.sharing = 1;
+  pro.options.unlimited = 1;
+  pro.options.extrasec = 0;
+  const enterprise = {};
+  enterprise.options = {};
+  enterprise.options.public = 1;
+  enterprise.options.private = 1;
+  enterprise.options.permissions = 1;
+  enterprise.options.sharing = 1;
+  enterprise.options.unlimited = 1;
+  enterprise.options.extrasec = 1;
   if(tier == 'FREE') return free.options;
   else if(tier == 'PRO') return pro.options;
   else return enterprise.options;
