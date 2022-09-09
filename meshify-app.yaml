@@ -172,29 +172,6 @@ spec:
   accessLogging:
     isEnabled: true
 ---
-kind: IngressGateway
-apiVersion: servicemesh.oci.oracle.com/v1beta1
-metadata:
-  name: meshdemo-admin-ingress-gateway
-  namespace: meshdemo_version
-spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
-  mesh:
-    ref:
-      name: meshdemo_version
-  hosts:
-    - name: meshdemoAdminHost
-      hostnames:
-        - admin.meshdemo.io
-        - admin.meshdemo.io:3010
-      listeners:
-        - port: 3010
-          protocol: HTTP
-          tls:
-            mode: DISABLED
-  accessLogging:
-    isEnabled: true
----
 apiVersion: servicemesh.oci.oracle.com/v1beta1
 kind: IngressGatewayDeployment
 metadata:
@@ -211,26 +188,6 @@ spec:
   ports:
     - protocol: TCP
       port: 3000
-      serviceport: 80
-  service:
-    type: LoadBalancer
----
-apiVersion: servicemesh.oci.oracle.com/v1beta1
-kind: IngressGatewayDeployment
-metadata:
-  name: meshdemo-admin-ingress-gateway-deployment
-  namespace: meshdemo_version
-spec:
-  ingressGateway:
-    ref:
-      name: meshdemo-admin-ingress-gateway
-  deployment:
-    autoscaling:
-      minPods: 1
-      maxPods: 1
-  ports:
-    - protocol: TCP
-      port: 3010
       serviceport: 80
   service:
     type: LoadBalancer
@@ -259,29 +216,72 @@ spec:
         ingressGatewayHost:
           name: meshdemoHost
 ---
-apiVersion: servicemesh.oci.oracle.com/v1beta1
-kind: IngressGatewayRouteTable
-metadata:
-  name: meshdemo-admin-ingress-gateway-route-table
-  namespace: meshdemo_version
-spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
-  ingressGateway:
-    ref:
-      name: meshdemo-admin-ingress-gateway
-  routeRules:
-    - httpRoute:
-        path: /
-        pathType: PREFIX
-        isGrpc: false
-        destinations:
-          - virtualService:
-              ref:
-                name: price
-            weight: 100
-            port: 3010
-        ingressGatewayHost:
-          name: meshdemoAdminHost
+#kind: IngressGateway
+#apiVersion: servicemesh.oci.oracle.com/v1beta1
+#metadata:
+#  name: meshdemo-admin-ingress-gateway
+#  namespace: meshdemo_version
+#spec:
+#  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+#  mesh:
+#    ref:
+#      name: meshdemo_version
+#  hosts:
+#    - name: meshdemoAdminHost
+#      hostnames:
+#        - admin.meshdemo.io
+#        - admin.meshdemo.io:3010
+#      listeners:
+#        - port: 3010
+#          protocol: HTTP
+#          tls:
+#            mode: DISABLED
+#  accessLogging:
+#    isEnabled: true
+#---
+#apiVersion: servicemesh.oci.oracle.com/v1beta1
+#kind: IngressGatewayDeployment
+#metadata:
+#  name: meshdemo-admin-ingress-gateway-deployment
+#  namespace: meshdemo_version
+#spec:
+#  ingressGateway:
+#    ref:
+#      name: meshdemo-admin-ingress-gateway
+#  deployment:
+#    autoscaling:
+#      minPods: 1
+#      maxPods: 1
+#  ports:
+#    - protocol: TCP
+#      port: 3010
+#      serviceport: 80
+#  service:
+#    type: LoadBalancer
+#---
+#apiVersion: servicemesh.oci.oracle.com/v1beta1
+#kind: IngressGatewayRouteTable
+#metadata:
+#  name: meshdemo-admin-ingress-gateway-route-table
+#  namespace: meshdemo_version
+#spec:
+#  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+#  ingressGateway:
+#    ref:
+#      name: meshdemo-admin-ingress-gateway
+#  routeRules:
+#    - httpRoute:
+#        path: /
+#        pathType: PREFIX
+#        isGrpc: false
+#        destinations:
+#          - virtualService:
+#              ref:
+#                name: price
+#            weight: 100
+#            port: 3010
+#        ingressGatewayHost:
+#          name: meshdemoAdminHost
 ---
 kind: AccessPolicy
 apiVersion: servicemesh.oci.oracle.com/v1beta1
@@ -305,15 +305,6 @@ spec:
             name: home
     - action: ALLOW
       source:
-        ingressGateway:
-          ref:
-            name: meshdemo-admin-ingress-gateway
-      destination:
-        virtualService:
-          ref:
-            name: price
-    - action: ALLOW
-      source:
         virtualService:
           ref:
             name: home
@@ -332,4 +323,13 @@ spec:
             hostnames:
             -  "*"
             ports: []
+#    - action: ALLOW
+#      source:
+#        ingressGateway:
+#          ref:
+#            name: meshdemo-admin-ingress-gateway
+#      destination:
+#        virtualService:
+#          ref:
+#            name: price
 ---
