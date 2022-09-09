@@ -36,8 +36,10 @@ enterprise.options.unlimited = 1;
 enterprise.options.extrasec = 1;
 
 app.get('/free', (req, res) => {
-  console.log(free);
-  res.send(JSON.stringify(free));
+  queryPrice('FREE') .then((json) => {
+     console.log(json);
+     res.send(JSON.stringify(json));
+  });
 });
 
 app.put('/free/:json', (req, res) => {
@@ -46,8 +48,10 @@ app.put('/free/:json', (req, res) => {
 });
 
 app.get('/pro', (req, res) => {
-  console.log(pro);
-  res.send(JSON.stringify(pro));
+  queryPrice('PRO') .then((json) => {
+     console.log(json);
+     res.send(JSON.stringify(json));
+  });
 });
 
 app.put('/pro/:json', (req, res) => {
@@ -56,8 +60,10 @@ app.put('/pro/:json', (req, res) => {
 });
 
 app.get('/enterprise', (req, res) => {
-  console.log(enterprise);
-  res.send(JSON.stringify(enterprise));
+  queryPrice('ENTERPRISE') .then((json) => {
+     console.log(json);
+     res.send(JSON.stringify(json));
+  });
 });
 
 app.put('/enterprise/:json', (req, res) => {
@@ -73,41 +79,11 @@ async function init() {
       user: 'priceadmin',
       password: 'atp_pwd',
       connectString: 'oracledb_tp'
-      // edition: 'ORA$BASE', // used for Edition Based Redefintion
-      // events: false, // whether to handle Oracle Database FAN and RLB events or support CQN
-      // externalAuth: false, // whether connections should be established using External Authentication
-      // homogeneous: true, // all connections in the pool have the same credentials
-      // poolAlias: 'default', // set an alias to allow access to the pool via a name.
-      // poolIncrement: 1, // only grow the pool by one connection at a time
-      // poolMax: 4, // maximum size of the pool. Increase UV_THREADPOOL_SIZE if you increase poolMax
-      // poolMin: 0, // start with no connections; let the pool shrink completely
-      // poolPingInterval: 60, // check aliveness of connection if idle in the pool for 60 seconds
-      // poolTimeout: 60, // terminate connections that are idle in the pool for 60 seconds
-      // queueMax: 500, // don't allow more than 500 unsatisfied getConnection() calls in the pool queue
-      // queueTimeout: 60000, // terminate getConnection() calls queued for longer than 60000 milliseconds
-      // sessionCallback: myFunction, // function invoked for brand new connections or by a connection tag mismatch
-      // sodaMetaDataCache: false, // Set true to improve SODA collection access performance
-      // stmtCacheSize: 30, // number of statements that are cached in the statement cache of each connection
-      // enableStatistics: false // record pool usage for oracledb.getPool().getStatistics() and logStatistics()
     });
-    console.log('Connection pool started');
-    //DDL();
-    var res = await queryPrice('FREE');
-    console.log(res);
-    var res = await queryPrice('PRO');
-    console.log(res);
-    var res = await queryPrice('ENTERPRISE');
-    console.log(res);
-    console.log("=========================");  
-    console.log(free);
-    console.log(pro);
-    console.log(enterprise);
-      
+    console.log('Connection pool started succesfully'); 
   } catch (err) {
     console.error('init() error: ' + err.message);
-  } //finally {
-    //await closePoolAndExit();
-    //}
+  }
 }
 
 async function queryPrice(tier) {
@@ -120,10 +96,8 @@ async function queryPrice(tier) {
     const options = { outFormat: oracledb.OUT_FORMAT_OBJECT };
     const result = await connection.execute(sql, binds, options);
     const row = result.rows[0];
-    var json = { 'price' : {'monthly' : JSON.stringify(row.PRICE_MO), 'storage' : JSON.stringify(row.STORAGE), 'users' : JSON.stringify(row.USERS), 'support' : JSON.stringify(row.SUPPORT).replace(/['"]+/g, '') }, options : { } };
-    console.log("Query " + tier + ":");
-    console.log(json);
-    setPrice(tier, json);
+    const tierOptions = await getOptions(tier);
+    var json = { 'price' : {'monthly' : JSON.stringify(row.PRICE_MO), 'storage' : JSON.stringify(row.STORAGE), 'users' : JSON.stringify(row.USERS), 'support' : JSON.stringify(row.SUPPORT).replace(/['"]+/g, '') }, options : tierOptions };
     return json;
   } catch (err) {
     console.error(err);
@@ -147,11 +121,6 @@ async function updatePrice(tier, json) {
     const sql = `UPDATE PRICE SET PRICE_MO = :price, STORAGE = :storage, USERS = :users, SUPPORT = :support WHERE TIER = :tier`;
     const binds = [json.price.monthly, json.price.storage, json.price.users, json.price.support, tier];
     const result = await connection.execute(sql, binds, { autoCommit: true });
-    console.log("Update " + tier + ":");
-    console.log(json);
-    console.log(result);
-    setPrice(tier, json);
-    return json;
   } catch (err) {
     console.error(err);
   } finally {
@@ -166,46 +135,12 @@ async function updatePrice(tier, json) {
   }
 }
 
-// Tier options are "static" in this example, just set the tier price
-function setPrice(tier, json)
+// Tier options are "static" in this example, this is to set them for json output
+async function getOptions(tier)
 {
-  if(tier == 'FREE') free.price = json.price;
-  else if(tier == 'PRO') pro.price = json.price;
-  else enterprise.price = json.price;
-}
-
-async function DDL() {
-  let connection;
-  try {
-    // Get a connection from the default pool
-    connection = await oracledb.getConnection();
-    const sql1 = `CREATE TABLE PRICE (TIER VARCHAR2(100), PRICE_MO NUMBER(6,2), STORAGE NUMBER(4), USERS NUMBER(4), SUPPORT VARCHAR2(1000))`;
-    var result = await connection.execute(sql1);
-    console.log(result);
-    const sql2 = `create unique index PRICE_TIER_IND on PRICE(TIER)`;
-    result = await connection.execute(sql2);
-    console.log(result);
-    const sql3 = `INSERT INTO PRICE VALUES ('FREE', 0, 2, 10, 'Email')`;
-    result = await connection.execute(sql3,{},{ autoCommit: true });
-    console.log(result);
-    const sql4 = `INSERT INTO PRICE VALUES ('PRO', 15, 10, 20, 'Priority email')`;
-    result = await connection.execute(sql4,{},{ autoCommit: true });
-    console.log(result);
-    const sql5 = `INSERT INTO PRICE VALUES ('ENTERPRISE', 29, 15, 30, 'Phone and email')`;
-    result = await connection.execute(sql5,{},{ autoCommit: true });
-    console.log(result);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    if (connection) {
-      try {
-        // Put the connection back in the pool
-        await connection.close();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-  }
+  if(tier == 'FREE') return free.options;
+  else if(tier == 'PRO') return pro.options;
+  else return enterprise.options;
 }
 
 async function closePoolAndExit() {
