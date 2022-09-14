@@ -174,7 +174,7 @@ steps:
        yum -y install jq
        chmod +x ./kubectl
        export KUBECONFIG="kconfig"
-       export lb=$(kubectl get services meshdemo-ingress-gateway-deployment-service -n meshdemo-uuoita -o jsonpath='{.status.loadBalancer.ingress[].ip}')
+       export lb=$(./kubectl get services meshdemo-ingress-gateway-deployment-service -n meshdemo-uuoita -o jsonpath='{.status.loadBalancer.ingress[].ip}')
        #oci dns zone create -c ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --name 'meshdemo.ivandelic.com' --zone-type 'PRIMARY'
        oci dns record domain update --domain 'home.meshdemo.io' --zone-name-or-id 'meshdemo.io' -c ocid1.compartment.oc1..aaaaaaaalhqqlxb2j6zg3oboosynkhpthizwpepldbifo2k45brd77sstirq --items='[{"domain": "home.meshdemo.ivandelic.com","is-protected": false,"rdata": "${lb}","record-hash":"0675bc834634d037d8840df^C8557d6f","rrset-version": "2","rtype": "A","ttl": 1800 }]' --force
        
