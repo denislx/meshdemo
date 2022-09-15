@@ -127,60 +127,60 @@
             <tbody>
               <tr>
                 <th scope="row" class="text-start">Public</th>
-                <td v-if="data.free.options.public"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.free.options.public"></td> 
-                <td v-if="data.pro.options.public"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.pro.options.public"></td>
-                <td v-if="data.enterprise.options.public"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.enterprise.options.public"></td>
+                <td v-if="data.free.options.public == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.public != 'Y'"></td> 
+                <td v-if="data.pro.options.public == 'Y'" ><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.pro.options.public != 'Y'"></td>
+                <td v-if="data.enterprise.options.public == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.public != 'Y'"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Private</th>
-                <td v-if="data.free.options.private"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.free.options.private"></td> 
-                <td v-if="data.pro.options.private"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.pro.options.private"></td>
-                <td v-if="data.enterprise.options.private"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.enterprise.options.private"></td>
+                <td v-if="data.free.options.private == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.private != 'Y'"></td> 
+                <td v-if="data.pro.options.private == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.pro.options.private != 'Y'"></td>
+                <td v-if="data.enterprise.options.private == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.enterprise.options.private != 'Y'"></td>
               </tr>
             </tbody>
 
             <tbody>
               <tr>
                 <th scope="row" class="text-start">Permissions</th>
-                <td v-if="data.free.options.permissions"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.free.options.permissions"></td> 
-                <td v-if="data.pro.options.permissions"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.pro.options.permissions"></td>
-                <td v-if="data.enterprise.options.permissions"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.enterprise.options.permission"></td>
+                <td v-if="data.free.options.permissions == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.permissions != 'Y'"></td> 
+                <td v-if="data.pro.options.permissions == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.pro.options.permissions != 'Y'"></td>
+                <td v-if="data.enterprise.options.permissions == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.enterprise.options.permission != 'Y'"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Sharing</th>
-                <td v-if="data.free.options.sharing"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.free.options.sharing"></td> 
-                <td v-if="data.pro.options.sharing"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.pro.options.sharing"></td>
-                <td v-if="data.enterprise.options.sharing"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.enterprise.options.sharing"></td>
+                <td v-if="data.free.options.sharing == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.sharing != 'Y'"></td> 
+                <td v-if="data.pro.options.sharing == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.pro.options.sharing != 'Y'"></td>
+                <td v-if="data.enterprise.options.sharing == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.enterprise.options.sharing != 'Y'"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Unlimited members</th>
-                <td v-if="data.free.options.unlimited"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.free.options.unlimited"></td> 
-                <td v-if="data.pro.options.unlimited"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.pro.options.unlimited"></td>
-                <td v-if="data.enterprise.options.unlimited"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.enterprise.options.unlimited"></td>
+                <td v-if="data.free.options.unlimited == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.unlimited != 'Y'"></td> 
+                <td v-if="data.pro.options.unlimited == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.pro.options.unlimited != 'Y'"></td>
+                <td v-if="data.enterprise.options.unlimited == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.unlimited != 'Y'"></td>
               </tr>
               <tr>
                 <th scope="row" class="text-start">Extra security</th>
-                <td v-if="data.free.options.extrasec"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.free.options.extrasec"></td> 
-                <td v-if="data.pro.options.extrasec"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.pro.options.extrasec"></td>
-                <td v-if="data.enterprise.options.extrasec"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
-                <td v-if="!data.enterprise.options.extrasec"></td>
+                <td v-if="data.free.options.extrasec == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.free.options.extrasec != 'Y'"></td> 
+                <td v-if="data.pro.options.extrasec == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="data.pro.options.extrasec != 'Y'"></td>
+                <td v-if="data.enterprise.options.extrasec == 'Y'"><svg class="bi" width="24" height="24"><use xlink:href="#check"/></svg></td>
+                <td v-if="!data.enterprise.options.extrasec != 'Y'"></td>
               </tr>
             </tbody>
           </table>
