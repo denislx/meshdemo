@@ -96,7 +96,7 @@ async function queryOptions(tier) {
     const options = { outFormat: oracledb.OUT_FORMAT_OBJECT };
     const result = await connection.execute(sql, binds, options);
     const row = result.rows[0];
-    var json = { 'options' : {'public' : JSON.stringify(row.ISPUBLIC).replace(/['"]+/g, ''), 'private' : JSON.stringify(row.ISPRIVATE).replace(/['"]+/g, ''), 'permissions' : JSON.stringify(row.ISPERMISSIONS).replace(/['"]+/g, ''), 'sharing' : JSON.stringify(row.ISSHARING).replace(/['"]+/g, ''), 'unlimited' : JSON.stringify(row.ISUNLIMITED).replace(/['"]+/g, ''), 'extrasec' : JSON.stringify(row.ISEXTRASEC).replace(/['"]+/g, '') }};
+    var json = { 'public' : JSON.stringify(row.ISPUBLIC).replace(/['"]+/g, ''), 'private' : JSON.stringify(row.ISPRIVATE).replace(/['"]+/g, ''), 'permissions' : JSON.stringify(row.ISPERMISSIONS).replace(/['"]+/g, ''), 'sharing' : JSON.stringify(row.ISSHARING).replace(/['"]+/g, ''), 'unlimited' : JSON.stringify(row.ISUNLIMITED).replace(/['"]+/g, ''), 'extrasec' : JSON.stringify(row.ISEXTRASEC).replace(/['"]+/g, '') };
     return json;
   } catch (err) {
     console.error(err);
