@@ -19,7 +19,7 @@
             <column name="ISPERMISSIONS" value="Y"/>
             <column name="ISSHARING" value="Y"/>
             <column name="ISUNLIMITED" value="Y"/>
-            <column name="ISEXTRASEC"/>
+            <column name="ISEXTRASEC" value="N"/>
         </insert>
         <insert tableName="OPTIONS">
             <column name="ID" valueNumeric="24"/>
