@@ -9,11 +9,10 @@ export tables_to_copy=Y
 
 
 printf "set cloudconfig ./Wallet/Wallet.zip\nconn admin/${pwd}@${conn}\n/\n" > upd.sql
-printf "delete user ${schema} \n/\n" >> upd.sql
+printf "drop user ${schema} \n/\n" >> upd.sql
 printf "create user ${schema} identified by \"${pwd}\"\n/\n" >> upd.sql
 printf "GRANT CONNECT, CREATE SESSION, CREATE CLUSTER, CREATE DIMENSION, CREATE INDEXTYPE, CREATE JOB, CREATE MATERIALIZED VIEW, CREATE OPERATOR, CREATE PROCEDURE, CREATE SEQUENCE, CREATE SYNONYM, CREATE TABLE, CREATE TRIGGER, CREATE TYPE, CREATE VIEW to ${schema};\n" >> upd.sql
 printf "ALTER USER ${schema} quota unlimited on DATA;\n/\n" >> upd.sql
-
 printf "conn ${schema}/${pwd}@${conn}\n" >> upd.sql
 if [ -f "controller.xml" ]; then
    printf "lb update -changelog controller.xml\n" >> upd.sql
@@ -41,6 +40,16 @@ cat upd.sql
 
 if [ -n "${wsname}" ]; then
     printf "set cloudconfig ./Wallet/Wallet.zip\nconn admin/${pwd}@${conn}\n/\n" > upd_apex.sql
+    printf "begin\n" >> upd_apex.sql
+    printf "    apex_instance_admin.remove_workspace(\n" >> upd_apex.sql
+    printf "       p_drop_users       => 'Y',\n" >> upd_apex.sql
+    printf "       p_drop_tablespaces => 'Y',\n" >> upd_apex.sql
+    printf "       p_workspace        => '${wsname}'\n" >> upd_apex.sql
+    printf "     );\n" >> upd_apex.sql
+    printf "     commit;\n" >> upd_apex.sql
+    printf "end;\n/\n\n" >> upd_apex.sql
+    p_drop_users        IN VARCHAR2 DEFAULT 'N',
+    p_drop_tablespaces  IN VARCHAR2 DEFAULT 'N' );
     printf "begin\n" >> upd_apex.sql
     printf "    for c1 in (select privilege\n" >> upd_apex.sql
     printf "             from sys.dba_sys_privs\n" >> upd_apex.sql
