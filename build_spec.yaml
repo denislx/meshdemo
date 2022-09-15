@@ -183,7 +183,7 @@ steps:
        export lb=''
        while [ $tries -le 30 ] && [[ $lb == '' ]] 
        do
-          export lb=$(kubectl get services meshdemo-ingress-gateway-deployment-service -n ${meshdemo_version} -jsonpath='{.status.loadBalancer.ingress[].ip}')
+          export lb=$(./kubectl get services meshdemo-ingress-gateway-deployment-service -n ${meshdemo_version} -jsonpath='{.status.loadBalancer.ingress[].ip}')
           echo "lb: $tries $lb"
           tries=$(( $tries + 1 ))
           sleep 5
