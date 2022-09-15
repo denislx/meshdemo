@@ -9,7 +9,7 @@ export tables_to_copy=Y
 
 
 printf "set cloudconfig ./Wallet/Wallet.zip\nconn admin/${pwd}@${conn}\n/\n" > upd.sql
-printf "drop user ${schema} \n/\n" >> upd.sql
+printf "drop user ${schema} CASCADE\n/\n" >> upd.sql
 printf "create user ${schema} identified by \"${pwd}\"\n/\n" >> upd.sql
 printf "GRANT CONNECT, CREATE SESSION, CREATE CLUSTER, CREATE DIMENSION, CREATE INDEXTYPE, CREATE JOB, CREATE MATERIALIZED VIEW, CREATE OPERATOR, CREATE PROCEDURE, CREATE SEQUENCE, CREATE SYNONYM, CREATE TABLE, CREATE TRIGGER, CREATE TYPE, CREATE VIEW to ${schema};\n" >> upd.sql
 printf "ALTER USER ${schema} quota unlimited on DATA;\n/\n" >> upd.sql
@@ -35,7 +35,6 @@ if [ "${tables_to_copy}" == "Y" ]; then
 fi
 
 printf "\ntables\nexit" >> upd.sql
-cat upd.sql
 ./sqlcl/bin/sql /nolog @./upd.sql
 
 if [ -n "${wsname}" ]; then
@@ -48,8 +47,6 @@ if [ -n "${wsname}" ]; then
     printf "     );\n" >> upd_apex.sql
     printf "     commit;\n" >> upd_apex.sql
     printf "end;\n/\n\n" >> upd_apex.sql
-    p_drop_users        IN VARCHAR2 DEFAULT 'N',
-    p_drop_tablespaces  IN VARCHAR2 DEFAULT 'N' );
     printf "begin\n" >> upd_apex.sql
     printf "    for c1 in (select privilege\n" >> upd_apex.sql
     printf "             from sys.dba_sys_privs\n" >> upd_apex.sql
