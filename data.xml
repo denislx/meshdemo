@@ -1,38 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-    <changeSet author="opc (generated)" id="1663257913169-1">
-        <insert tableName="OPTIONS">
-            <column name="ID" valueNumeric="21"/>
-            <column name="TIER" value="FREE"/>
-            <column name="ISPUBLIC" value="Y"/>
-            <column name="ISPRIVATE" value="N"/>
-            <column name="ISPERMISSIONS" value="Y"/>
-            <column name="ISSHARING" value="N"/>
-            <column name="ISUNLIMITED" value="N"/>
-            <column name="ISEXTRASEC" value="N"/>
-        </insert>
-        <insert tableName="OPTIONS">
-            <column name="ID" valueNumeric="23"/>
-            <column name="TIER" value="PRO"/>
-            <column name="ISPUBLIC" value="Y"/>
-            <column name="ISPRIVATE" value="Y"/>
-            <column name="ISPERMISSIONS" value="Y"/>
-            <column name="ISSHARING" value="Y"/>
-            <column name="ISUNLIMITED" value="Y"/>
-            <column name="ISEXTRASEC"/>
-        </insert>
-        <insert tableName="OPTIONS">
-            <column name="ID" valueNumeric="24"/>
-            <column name="TIER" value="ENTERPRISE"/>
-            <column name="ISPUBLIC" value="Y"/>
-            <column name="ISPRIVATE" value="Y"/>
-            <column name="ISPERMISSIONS" value="Y"/>
-            <column name="ISSHARING" value="Y"/>
-            <column name="ISUNLIMITED" value="Y"/>
-            <column name="ISEXTRASEC" value="Y"/>
-        </insert>
-    </changeSet>
-    <changeSet author="opc (generated)" id="1663257913169-2">
+    <changeSet author="opc (generated)" id="1662631252669-1">
         <insert tableName="PRICE">
             <column name="ID" valueNumeric="2"/>
             <column name="TIER" value="FREE"/>
