@@ -5,7 +5,7 @@
 	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
-	<changeSet id="5b57b9004cf197982dc6deea1b0311661a21a168" author="(PRICEADMIN)-Generated" failOnError="false"    >
+	<changeSet id="98b142c64f5ce815f88ddb3917568fb5804ab063" author="(PRICEADMIN)-Generated" failOnError="false"    >
 		<n0:runOracleScript objectName="SCRIPT" objectType="APEX" ownerName="PRICEADMIN" sourceType="STRING"  >
 			<n0:source><![CDATA[prompt --application/set_environment
 set define off verify off feedback off
@@ -118,7 +118,7 @@ wwv_flow_imp.create_flow(
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'PRICE ADMIN'
 ,p_last_updated_by=>'PRICEADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20220915152309'
+,p_last_upd_yyyymmddhh24miss=>'20220915155746'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>7
 ,p_ui_type_name => null
@@ -13934,7 +13934,7 @@ wwv_flow_imp_page.create_page(
 ,p_protection_level=>'C'
 ,p_page_component_map=>'21'
 ,p_last_updated_by=>'PRICEADMIN'
-,p_last_upd_yyyymmddhh24miss=>'20220915152309'
+,p_last_upd_yyyymmddhh24miss=>'20220915155746'
 );
 wwv_flow_imp_page.create_page_plug(
  p_id=>wwv_flow_imp.id(8061606899756814)
@@ -13982,6 +13982,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_attribute_01=>'Y'
 ,p_attribute_02=>'Y'
 ,p_attribute_03=>'N'
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 );
@@ -13993,6 +13994,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>20
 ,p_value_alignment=>'CENTER'
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 );
@@ -14007,6 +14009,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_display_sequence=>30
 ,p_attribute_01=>'Y'
 ,p_enable_filter=>false
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>true
 ,p_duplicate_value=>true
@@ -14276,6 +14279,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_attribute_01=>'Y'
 ,p_attribute_02=>'Y'
 ,p_attribute_03=>'N'
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 );
@@ -14287,6 +14291,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>20
 ,p_value_alignment=>'CENTER'
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 );
@@ -14301,6 +14306,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_display_sequence=>30
 ,p_attribute_01=>'Y'
 ,p_enable_filter=>false
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>true
 ,p_duplicate_value=>true
@@ -14317,6 +14323,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_display_sequence=>40
 ,p_attribute_01=>'Y'
 ,p_enable_filter=>false
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 ,p_parent_column_id=>wwv_flow_imp.id(8066879119756820)
@@ -14359,18 +14366,13 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_expression=>'ISPRIVATE'
 ,p_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
-,p_item_type=>'NATIVE_TEXT_FIELD'
+,p_item_type=>'NATIVE_SINGLE_CHECKBOX'
 ,p_heading=>'Isprivate'
 ,p_heading_alignment=>'LEFT'
 ,p_display_sequence=>60
 ,p_value_alignment=>'LEFT'
-,p_attribute_01=>'N'
-,p_attribute_02=>'N'
-,p_attribute_03=>'N'
-,p_attribute_04=>'TEXT'
-,p_attribute_05=>'BOTH'
+,p_attribute_01=>'Y'
 ,p_is_required=>false
-,p_max_length=>1
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false
@@ -14393,18 +14395,13 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_expression=>'ISPERMISSIONS'
 ,p_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
-,p_item_type=>'NATIVE_TEXT_FIELD'
+,p_item_type=>'NATIVE_SINGLE_CHECKBOX'
 ,p_heading=>'Ispermissions'
 ,p_heading_alignment=>'LEFT'
 ,p_display_sequence=>70
 ,p_value_alignment=>'LEFT'
-,p_attribute_01=>'N'
-,p_attribute_02=>'N'
-,p_attribute_03=>'N'
-,p_attribute_04=>'TEXT'
-,p_attribute_05=>'BOTH'
+,p_attribute_01=>'Y'
 ,p_is_required=>false
-,p_max_length=>1
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false
@@ -14427,18 +14424,13 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_expression=>'ISSHARING'
 ,p_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
-,p_item_type=>'NATIVE_TEXT_FIELD'
+,p_item_type=>'NATIVE_SINGLE_CHECKBOX'
 ,p_heading=>'Issharing'
 ,p_heading_alignment=>'LEFT'
 ,p_display_sequence=>80
 ,p_value_alignment=>'LEFT'
-,p_attribute_01=>'N'
-,p_attribute_02=>'N'
-,p_attribute_03=>'N'
-,p_attribute_04=>'TEXT'
-,p_attribute_05=>'BOTH'
+,p_attribute_01=>'Y'
 ,p_is_required=>false
-,p_max_length=>1
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false
@@ -14461,18 +14453,13 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_expression=>'ISUNLIMITED'
 ,p_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
-,p_item_type=>'NATIVE_TEXT_FIELD'
+,p_item_type=>'NATIVE_SINGLE_CHECKBOX'
 ,p_heading=>'Isunlimited'
 ,p_heading_alignment=>'LEFT'
 ,p_display_sequence=>90
 ,p_value_alignment=>'LEFT'
-,p_attribute_01=>'N'
-,p_attribute_02=>'N'
-,p_attribute_03=>'N'
-,p_attribute_04=>'TEXT'
-,p_attribute_05=>'BOTH'
+,p_attribute_01=>'Y'
 ,p_is_required=>false
-,p_max_length=>1
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false
@@ -14495,18 +14482,13 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_expression=>'ISEXTRASEC'
 ,p_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
-,p_item_type=>'NATIVE_TEXT_FIELD'
+,p_item_type=>'NATIVE_SINGLE_CHECKBOX'
 ,p_heading=>'Isextrasec'
 ,p_heading_alignment=>'LEFT'
 ,p_display_sequence=>100
 ,p_value_alignment=>'LEFT'
-,p_attribute_01=>'N'
-,p_attribute_02=>'N'
-,p_attribute_03=>'N'
-,p_attribute_04=>'TEXT'
-,p_attribute_05=>'BOTH'
+,p_attribute_01=>'Y'
 ,p_is_required=>false
-,p_max_length=>1
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false

@@ -5,7 +5,7 @@
 	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
-	<changeSet id="fccfdfdcaacd1b54af5886fd079b631a2ce96d98" author="(PRICEADMIN)-Generated" failOnError="false"    >
+	<changeSet id="6a7a9f81c03cd306ec4f1ca3604fcddd524b5065" author="(PRICEADMIN)-Generated" failOnError="false"    >
 		<n0:createSxmlObject objectName="OPTIONS" objectType="TABLE" ownerName="PRICEADMIN"   >
 			<n0:source><![CDATA[
   <TABLE xmlns="http://xmlns.oracle.com/ku" version="1.0">
@@ -20,7 +20,7 @@
                <SCHEMA>PRICEADMIN</SCHEMA>
                <GENERATION>DEFAULT</GENERATION>
                <ON_NULL></ON_NULL>
-               <START_WITH>21</START_WITH>
+               <START_WITH>41</START_WITH>
                <INCREMENT>1</INCREMENT>
                <MINVALUE>1</MINVALUE>
                <MAXVALUE>9999999999999999999999999999</MAXVALUE>

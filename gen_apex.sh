@@ -8,7 +8,7 @@ export application_id=100
 export tables_to_copy=Y
 
 
-if [ "${tables}" == "Y" ]; then
+if [ "${tables_to_copy}" == "Y" ]; then
     export tablesconfig="lb data"
 else
     export tablesconfig=""
