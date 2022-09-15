@@ -179,7 +179,16 @@ steps:
        yum -y install jq
        chmod +x ./kubectl
        export KUBECONFIG="kconfig"
-       export lb=$(./kubectl get services meshdemo-ingress-gateway-deployment-service -n $meshdemo_version -o jsonpath='{.status.loadBalancer.ingress[].ip}')
+       export tries=0
+       export lb=''
+       while [ $tries -le 30 ] && [[ $lb == '' ]] 
+       do
+          export lb=$(kubectl get services meshdemo-ingress-gateway-deployment-service -n ${meshdemo_version} -jsonpath='{.status.loadBalancer.ingress[].ip}')
+          echo "lb: $tries $lb"
+          tries=$(( $tries + 1 ))
+          sleep 5
+       done
        oci dns zone create -c ocid1.compartment.oc1..aaaaaaaalhqqlxb2j6zg3oboosynkhpthizwpepldbifo2k45brd77sstirq --name 'meshdemo.ivandelic.com' --zone-type 'PRIMARY'
-       oci dns record domain update --domain 'home.meshdemo.ivandelic.com' --zone-name-or-id 'meshdemo.ivandelic.com' -c ocid1.compartment.oc1..aaaaaaaalhqqlxb2j6zg3oboosynkhpthizwpepldbifo2k45brd77sstirq --items='[{"domain": "home.meshdemo.ivandelic.com","is-protected": false,"rdata": "${lb}","record-hash":"0675bc834634d037d8840df^C8557d6f","rrset-version": "2","rtype": "A","ttl": 1800 }]' --force
+       export items=`echo '[{"domain": "home.meshdemo.ivandelic.com","is-protected": false,"rdata": "'${lb}'","rrset-version": "2","rtype": "A","ttl": 1800 }]'`
+       oci dns record domain update --domain 'home.meshdemo.ivandelic.com' --zone-name-or-id 'meshdemo.ivandelic.com' -c ocid1.compartment.oc1..aaaaaaaalhqqlxb2j6zg3oboosynkhpthizwpepldbifo2k45brd77sstirq --items="${items}" --force
        
