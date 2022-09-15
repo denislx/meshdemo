@@ -190,5 +190,6 @@ steps:
        done
        oci dns zone create -c ocid1.compartment.oc1..aaaaaaaalhqqlxb2j6zg3oboosynkhpthizwpepldbifo2k45brd77sstirq --name 'meshdemo.ivandelic.com' --zone-type 'PRIMARY'
        export items=`echo '[{"domain": "home.meshdemo.ivandelic.com","is-protected": false,"rdata": "'${lb}'","rrset-version": "2","rtype": "A","ttl": 1800 }]'`
+       echo $items
        oci dns record domain update --domain 'home.meshdemo.ivandelic.com' --zone-name-or-id 'meshdemo.ivandelic.com' -c ocid1.compartment.oc1..aaaaaaaalhqqlxb2j6zg3oboosynkhpthizwpepldbifo2k45brd77sstirq --items="${items}" --force
        
