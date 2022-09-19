@@ -189,7 +189,7 @@ steps:
           sleep 5
        done
        export zone=$(oci dns record domain get --domain 'home.meshdemo.ivandelic.com' --zone-name-or-id 'meshdemo.ivandelic.com' -c ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --region 'eu-frankfurt-1' | jq '.data.items[] | select(."domain" == "home.meshdemo.ivandelic.com") | .domain ' | tr -d '"')
-       if [ "$zone" != "home.meshdemo.ivandelic.com"" ]; then
+       if [ "$zone" != "home.meshdemo.ivandelic.com" ]; then
          oci dns zone create -c ocid1.compartment.oc1..aaaaaaaalhqqlxb2j6zg3oboosynkhpthizwpepldbifo2k45brd77sstirq --name 'meshdemo.ivandelic.com' --zone-type 'PRIMARY' --region 'eu-frankfurt-1'
        fi
        export items=`echo '[{"domain": "home.meshdemo.ivandelic.com","is-protected": false,"rdata": "'${lb}'","rrset-version": "2","rtype": "A","ttl": 1800 }]'`
