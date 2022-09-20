@@ -162,8 +162,8 @@ spec:
   hosts:
     - name: meshdemoHost
       hostnames:
-        - home.meshdemo.ivandelic.com
-        - home.meshdemo.ivandelic.com:3000
+        - home.dns_domain
+        - home.dns_domain:3000
       listeners:
         - port: 3000
           protocol: HTTP

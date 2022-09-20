@@ -1,7 +1,7 @@
 {
   "configurationType": "LOGGING",
     "destination": {
-      "logObjectId": "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqakewmujo2ffnwxmpldv62ogrcygnrea7j53uw2safutxa"
+      "logObjectId": "log_object_ocid"
     },
     "sources": [
       {
