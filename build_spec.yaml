@@ -192,7 +192,7 @@ steps:
           sleep 5
        done
        export name=home.${dns_domain}
-       export zone=$(oci dns record domain get --domain ${name} --zone-name-or-id ${dns_domain} -c ${compartment_ocid} --region ${dns_region} | jq '.data.items[] | select(."domain" == "${name}") | .domain ' | tr -d '"')
+       export zone=$(oci dns record domain get --domain ${name} --zone-name-or-id ${dns_domain} -c ${dns_compartment_ocid} --region ${dns_region} | jq '.data.items[] | select(."domain" == "${name}") | .domain ' | tr -d '"')
        if [ "$zone" != "${name}" ]; then
          oci dns zone create -c ${dns_compartment_ocid} --name '${dns_domain}' --zone-type 'PRIMARY' --region ${dns_region}
        fi

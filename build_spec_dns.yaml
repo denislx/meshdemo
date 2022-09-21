@@ -1,0 +1,33 @@
+version: 0.1             
+component: build
+timeoutInSeconds: 5000
+shell: bash
+env:
+  exportedVariables:
+steps:
+  - type: Command
+    command: |
+       echo "Meshdemo: ${meshdemo_version}"
+       yum -y install jq
+       chmod +x ./kubectl
+       chmod +x ./kubectl
+       oci ce cluster create-kubeconfig --cluster-id ${oke_ocid} --file kconfig --region ${oke_region} --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
+       export KUBECONFIG="kconfig"
+       export tries=0
+       export lb=''
+       while [ $tries -le 30 ] && [[ $lb == '' ]] 
+       do
+          export lb=$(./kubectl get services meshdemo-ingress-gateway-deployment-service -n ${meshdemo_version} -o jsonpath='{.status.loadBalancer.ingress[].ip}')
+          echo "lb: $tries $lb"
+          tries=$(( $tries + 1 ))
+          sleep 5
+       done
+       export name=home.${dns_domain}
+       export zone=$(oci dns record domain get --domain ${name} --zone-name-or-id ${dns_domain} -c ${dns_compartment_ocid} --region ${dns_region} | jq '.data.items[] | select(."domain" == "${name}") | .domain ' | tr -d '"')
+       if [ "$zone" != "${name}" ]; then
+         oci dns zone create -c ${dns_compartment_ocid} --name '${dns_domain}' --zone-type 'PRIMARY' --region ${dns_region}
+       fi
+       export items=`echo '[{"domain": "'${name}'","is-protected": false,"rdata": "'${lb}'","rrset-version": "2","rtype": "A","ttl": 1800 }]'`
+       echo $items
+       oci dns record domain update --domain '${name}' --zone-name-or-id ${dns_domain} -c ${dns_domain} --items="${items}" --region ${dns_region} --force
+       
