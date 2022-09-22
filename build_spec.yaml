@@ -8,6 +8,7 @@ steps:
   - type: Command
     command: |
       export docker_pass=$(oci secrets secret-bundle get --secret-id ${secret_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
+      export password=$(oci secrets secret-bundle get --secret-id ${secret_atp_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
       docker login ams.ocir.io -u ${docker_user} -p ${docker_pass}
       # Generate Mesh name dynamically
       export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
