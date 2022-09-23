@@ -15,23 +15,13 @@ steps:
       echo "Mesh version: ${mesh_version}"
       export meshdemo_version="meshdemo-${mesh_version}"
       echo "Meshdemo: ${meshdemo_version}"
-      # BUILD HOME v1 - STATIC
-      cd ./home/
-      cp ./html/pricing/index_static.html ./html/pricing/index.html
-      docker build -t ${docker_registry}/meshdemo-homesvc:v1-${mesh_version} .
-      docker push ${docker_registry}/meshdemo-homesvc:v1-${mesh_version}
-      # BUILD HOME v2 - DYNAMIC 
-      cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
-      docker build -t ${docker_registry}/meshdemo-homesvc:v2-${mesh_version} .
-      docker push ${docker_registry}/meshdemo-homesvc:v2-${mesh_version}
-      cd ..
-      # BUILD PRICE v1
       yum -y install jq
       chmod +x ./kubectl
       # Install database via OSOK
       oci ce cluster create-kubeconfig --cluster-id ${oke_ocid} --file kconfig --region ${oke_region} --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
       export KUBECONFIG="kconfig"
       sed -i "s/meshdemo_version/${meshdemo_version}/g" ./price/atp.yaml
+      sed -i "s/meshdemo_compartment/${compartment_ocid}/g" ./price/atp.yaml
       ./kubectl create namespace ${meshdemo_version}
       ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
       ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
@@ -48,6 +38,21 @@ steps:
           tries=$(( $tries + 1 ))
           sleep 5
       done
+      if [ -z "$atp_status" ]; then
+        echo "ATP instance does not exist/could not be created .. exiting build."
+        exit 1
+      fi
+      # BUILD HOME v1 - STATIC
+      cd ./home/
+      cp ./html/pricing/index_static.html ./html/pricing/index.html
+      docker build -t ${docker_registry}/meshdemo-homesvc:v1-${mesh_version} .
+      docker push ${docker_registry}/meshdemo-homesvc:v1-${mesh_version}
+      # BUILD HOME v2 - DYNAMIC
+      cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
+      docker build -t ${docker_registry}/meshdemo-homesvc:v2-${mesh_version} .
+      docker push ${docker_registry}/meshdemo-homesvc:v2-${mesh_version}
+      cd ..
+      # BUILD PRICE v1
       mkdir -p ./price/Wallet
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."tnsnames.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/tnsnames.ora
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora

@@ -4,7 +4,7 @@ metadata:
   name: oracledb
   namespace: meshdemo_version
 spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   displayName: oracledb
   dbName: oracledb
   dbWorkload: OLTP
