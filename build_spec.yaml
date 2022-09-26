@@ -9,6 +9,14 @@ steps:
     command: |
       export docker_pass=$(oci secrets secret-bundle get --secret-id ${secret_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
       export password=$(oci secrets secret-bundle get --secret-id ${secret_atp_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
+      if [ -z "$docker_pass" ]; then
+        echo "Docker password is empty or null .. exiting build."
+        exit 1
+      fi
+      if [ -z "$password" ]; then
+        echo "ATP password is empty or null .. exiting build."
+        exit 1
+      fi
       docker login ams.ocir.io -u ${docker_user} -p ${docker_pass}
       # Generate Mesh name dynamically
       export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
@@ -197,6 +205,10 @@ steps:
           tries=$(( $tries + 1 ))
           sleep 5
        done
+       if [ -z "$lb" ]; then
+        echo "Mesh loadbalancer (ingress) is empty or null .. exiting build."
+        exit 1
+       fi
        export name=home.${dns_domain}
        export zone=$(oci dns record domain get --domain ${name} --zone-name-or-id ${dns_domain} -c ${dns_compartment_ocid} --region ${dns_region} | jq '.data.items[] | select(."domain" == "'${name}'") | .domain ' | tr -d '"')
        echo "zone: $zone"
