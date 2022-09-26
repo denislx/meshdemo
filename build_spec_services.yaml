@@ -74,7 +74,7 @@ steps:
           ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
           sed -i "s/tag/${version}/g" app.yaml
           sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
-          sed -i "s/meshdemo_registry/${docker_registry}/g" app.yaml
+           sed -i "s|meshdemo_registry|${docker_registry}|g" app.yaml
           sed -i "s/tag/${version}/g" app.yaml
           ./kubectl delete deployment home-v1 -n $meshdemo_version
           ./kubectl delete deployment home-v2 -n $meshdemo_version
