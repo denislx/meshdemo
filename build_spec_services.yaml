@@ -10,7 +10,7 @@ steps:
       yum -y install jq
       export docker_pass=$(oci secrets secret-bundle get --secret-id ${secret_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
       export password=$(oci secrets secret-bundle get --secret-id ${secret_atp_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
-      docker login ams.ocir.io -u ${docker_user} -p ${docker_pass}
+      docker login ${docker_registry} -u ${docker_user} -p ${docker_pass}
       # Generate Mesh name dynamically
       export version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
       echo "Version: ${version}"
@@ -32,6 +32,7 @@ steps:
           cd ..
           # BUILD PRICE v1 
           sed -i "s/atp_pwd/${password}/g" ./price/price.js
+          sed -i "s/meshdemo_dbname/${dbname}/g" ./price/price.js
           export tries=0
           export atp_status=''
           while [ $tries -le 30 ] && [[ $atp_status != 'Active' ]] 
@@ -62,6 +63,7 @@ steps:
           wget ${sqlcli_client} -q
           unzip V1022102-01.zip
           sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
+          sed -i "s/meshdemo_dbname/${dbname}/g" ./create_apex.sh
           sh ./create_apex.sh
           cd ./price/
           wget ${instant_client} -q
@@ -72,6 +74,7 @@ steps:
           ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
           sed -i "s/tag/${version}/g" app.yaml
           sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
+          sed -i "s/meshdemo_registry/${docker_registry}/g" app.yaml
           sed -i "s/tag/${version}/g" app.yaml
           ./kubectl delete deployment home-v1 -n $meshdemo_version
           ./kubectl delete deployment home-v2 -n $meshdemo_version

@@ -79,14 +79,14 @@ spec:
       serviceAccountName: meshdemo-home
       containers:
         - name: home
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v1-tag
+          image: meshdemo_registry/meshdemo-homesvc:v1-tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           securityContext:
             runAsUser: 1000
       imagePullSecrets:
-        - name: amsocirsecret
+        - name: ocirsecret
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -112,14 +112,14 @@ spec:
       serviceAccountName: meshdemo-home
       containers:
         - name: home
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-homesvc:v2-tag
+          image: meshdemo_registry/meshdemo-homesvc:v2-tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           securityContext:
             runAsUser: 1000
       imagePullSecrets:
-        - name: amsocirsecret
+        - name: ocirsecret
 ---
 apiVersion: v1
 kind: Service
@@ -185,12 +185,12 @@ spec:
       serviceAccountName: meshdemo-price
       containers:
         - name: price
-          image: ams.ocir.io/frsxwtjslf35/meshdemo-pricesvc:v1-tag
+          image: meshdemo_registry/meshdemo-pricesvc:v1-tag
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3010
           securityContext:
             runAsUser: 1000
       imagePullSecrets:
-        - name: amsocirsecret
+        - name: ocirsecret
 ---

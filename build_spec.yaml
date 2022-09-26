@@ -17,7 +17,7 @@ steps:
         echo "ATP password is empty or null .. exiting build."
         exit 1
       fi
-      docker login ams.ocir.io -u ${docker_user} -p ${docker_pass}
+      docker login ${docker_registry} -u ${docker_user} -p ${docker_pass}
       # Generate Mesh name dynamically
       export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
       echo "Mesh version: ${mesh_version}"
@@ -30,6 +30,7 @@ steps:
       export KUBECONFIG="kconfig"
       sed -i "s/meshdemo_version/${meshdemo_version}/g" ./price/atp.yaml
       sed -i "s/meshdemo_compartment/${compartment_ocid}/g" ./price/atp.yaml
+      sed -i "s/meshdemo_dbname/${dbname}/g" ./price/atp.yaml
       ./kubectl create namespace ${meshdemo_version}
       ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
       ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
@@ -55,7 +56,7 @@ steps:
       cp ./html/pricing/index_static.html ./html/pricing/index.html
       docker build -t ${docker_registry}/meshdemo-homesvc:v1-${mesh_version} .
       docker push ${docker_registry}/meshdemo-homesvc:v1-${mesh_version}
-      # BUILD HOME v2 - DYNAMIC
+      # BUILD HOME v2 - DYNAMIC 
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
       docker build -t ${docker_registry}/meshdemo-homesvc:v2-${mesh_version} .
       docker push ${docker_registry}/meshdemo-homesvc:v2-${mesh_version}
@@ -79,9 +80,11 @@ steps:
       wget ${sqlcli_client} -q
       unzip V1022102-01.zip
       sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
+      sed -i "s/meshdemo_dbname/${dbname}/g" ./create_apex.sh
       sh ./create_apex.sh
       cd ./price/
       sed -i "s/atp_pwd/${password}/g" ./price.js
+      sed -i "s/meshdemo_dbname/${dbname}/g" ./price.js
       wget ${instant_client} -q
       export docker_pass=$(oci secrets secret-bundle get --secret-id ${secret_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
       docker login ams.ocir.io -u ${docker_user} -p ${docker_pass}
@@ -152,12 +155,15 @@ steps:
       export KUBECONFIG="kconfig"
       sed -i "s/tag/${mesh_version}/g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
+      sed -i "s|meshdemo_registry|${docker_registry}|g" app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" meshify-app.yaml
+      sed -i "s/meshdemo_compartment/${compartment_ocid}/g" meshify-app.yaml
+      sed -i "s/meshdemo_ca/${ca_ocid}/g" meshify-app.yaml
       sed -i "s/dns_domain/${dns_domain}/g" meshify-app.yaml
       sed -i "s/meshdemo_version/${meshdemo_version}/g" bind-app.yaml
       ./kubectl label namespace $meshdemo_version servicemesh.oci.oracle.com/sidecar-injection=enabled
       export docker_pass=$(oci secrets secret-bundle get --secret-id ${secret_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
-      ./kubectl create secret docker-registry amsocirsecret -n $meshdemo_version --docker-username ${docker_user} --docker-password ${docker_pass} --docker-server 'ams.ocir.io' 
+      ./kubectl create secret docker-registry ocirsecret -n $meshdemo_version --docker-username ${docker_user} --docker-password ${docker_pass} --docker-server ${docker_registry} 
       ./kubectl create -f app.yaml
       sleep 120
       ./kubectl create -f meshify-app.yaml

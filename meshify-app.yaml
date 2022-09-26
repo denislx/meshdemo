@@ -4,9 +4,9 @@ metadata:
   name: meshdemo_version
   namespace: meshdemo_version
 spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   certificateAuthorities:
-    - id: ocid1.certificateauthority.oc1.eu-amsterdam-1.amaaaaaauevftmqaajcazwjonw6bqeaso5zmkdhadixczlz6rb5jpe2rinja
+    - id: meshdemo_ca
   displayName: meshdemo_version
   mtls:
     minimum: PERMISSIVE
@@ -22,7 +22,7 @@ spec:
       name: meshdemo_version
   defaultRoutingPolicy:
     type: UNIFORM
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   hosts:
     - home:3000
     - home
@@ -36,7 +36,7 @@ spec:
   virtualService:
     ref:
       name: home
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   listener:
     - port: 3000
       protocol: HTTP
@@ -55,7 +55,7 @@ spec:
   virtualService:
     ref:
       name: home
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   listener:
     - port: 3000
       protocol: HTTP
@@ -76,7 +76,7 @@ spec:
       name: meshdemo_version
   defaultRoutingPolicy:
     type: UNIFORM
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   hosts:
     - price:3010
     - price
@@ -90,7 +90,7 @@ spec:
   virtualService:
     ref:
       name: price
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   listener:
     - port: 3010
       protocol: HTTP
@@ -106,7 +106,7 @@ metadata:
   name: home-route-table
   namespace: meshdemo_version
 spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   virtualService:
     ref:
       name: home
@@ -133,7 +133,7 @@ metadata:
   name: price-route-table
   namespace: meshdemo_version
 spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   virtualService:
     ref:
       name: price
@@ -155,7 +155,7 @@ metadata:
   name: meshdemo-ingress-gateway
   namespace: meshdemo_version
 spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   mesh:
     ref:
       name: meshdemo_version
@@ -198,7 +198,7 @@ metadata:
   name: meshdemo-ingress-gateway-route-table
   namespace: meshdemo_version
 spec:
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   ingressGateway:
     ref:
       name: meshdemo-ingress-gateway
@@ -222,7 +222,7 @@ spec:
 #  name: meshdemo-admin-ingress-gateway
 #  namespace: meshdemo_version
 #spec:
-#  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+#  compartmentId: meshdemo_compartment
 #  mesh:
 #    ref:
 #      name: meshdemo_version
@@ -265,7 +265,7 @@ spec:
 #  name: meshdemo-admin-ingress-gateway-route-table
 #  namespace: meshdemo_version
 #spec:
-#  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+#  compartmentId: meshdemo_compartment
 #  ingressGateway:
 #    ref:
 #      name: meshdemo-admin-ingress-gateway
@@ -292,7 +292,7 @@ spec:
   mesh:
     ref:
       name: meshdemo_version
-  compartmentId: ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq
+  compartmentId: meshdemo_compartment
   rules:
     - action: ALLOW
       source:

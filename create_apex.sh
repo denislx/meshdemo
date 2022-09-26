@@ -1,6 +1,6 @@
 #!/bin/bash
  
-export conn=oracledb_tp
+export conn=meshdemo_dbname_tp
 export pwd=atp_pwd
 export schema=PRICEADMIN
 export wsname=PRICEADMIN

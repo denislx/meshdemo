@@ -51,7 +51,7 @@ async function init() {
     await oracledb.createPool({
       user: 'priceadmin',
       password: 'atp_pwd',
-      connectString: 'oracledb_tp'
+      connectString: 'meshdemo_dbname_tp'
     });
     console.log('Connection pool started succesfully'); 
   } catch (err) {

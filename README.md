@@ -10,6 +10,7 @@ Create OCIR <i>Docker login password</i> <b>secret</b> in OCI Vault.
 
 Build pipeline required parameters: 
 <ul>
+<li><b>dbname</b> ATP database name e.g. <i>pricedb</i></li>
 <li><b>secret_atp_ocid</b> ATP password e.g. <i>WelcomeFolks456#!</i> Secret OCID in Vault</li>
 <li><b>instant_client</b> e.g. <i>instantclient-basic-linux.x64-21.7.0.0.0dbru.zip</i> from object storage PAR. Download the file from OTN https://download.oracle.com/otn_software/linux/instantclient/217000/instantclient-basic-linux.x64-21.7.0.0.0dbru.zip to it.</li>
 <li><b>sqlcli_client</b> e.g. V1022102-01.zip from object storage PAR. Download the file from OTN https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/ to it.</li>
@@ -23,6 +24,7 @@ Build pipeline required parameters:
 <li><b>docker_user</b> Docker user e.g. frsxwtjslf34/oracleidentitycloudservice/mika.rinne@oracle.com</li>
 <li><b>docker_registry</b> Docker registry/OCIR e.g. ams.ocir.io/frsxwtjslf34</li>
 <li><b>secret_ocid</b> Docker password Secret OCID in Vault</li>
+<li><b>ca_ocid</b> Root-CA OCID for Service Mesh</li>
 <li><b>logging_dynamicgroup_ocid</b> Dynamic Group OCID to create logging for Grafana</li>
 <li><b>log_object_ocid</b> Log object OCID in LogGrups for Grafana</li>
 </ul>
