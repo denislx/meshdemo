@@ -116,12 +116,12 @@ spec:
           - virtualDeployment:
               ref:
                 name: home-v1
-            weight: 50
+            weight: 20
             port: 3000
           - virtualDeployment:
               ref:
                 name: home-v2
-            weight: 50
+            weight: 80
             port: 3000
         isGrpc: false
         path: /
