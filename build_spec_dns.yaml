@@ -10,7 +10,6 @@ steps:
        echo "Meshdemo: ${meshdemo_version}"
        yum -y install jq
        chmod +x ./kubectl
-       chmod +x ./kubectl
        oci ce cluster create-kubeconfig --cluster-id ${oke_ocid} --file kconfig --region ${oke_region} --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
        export KUBECONFIG="kconfig"
        export tries=0
