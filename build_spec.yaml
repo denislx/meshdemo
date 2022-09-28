@@ -86,8 +86,6 @@ steps:
       sed -i "s/atp_pwd/${password}/g" ./price.js
       sed -i "s/meshdemo_dbname/${dbname}/g" ./price.js
       wget ${instant_client} -q
-      export docker_pass=$(oci secrets secret-bundle get --secret-id ${secret_ocid} --query "data.\"secret-bundle-content\".content" | tr -d '"' | base64 -d)
-      docker login ams.ocir.io -u ${docker_user} -p ${docker_pass}
       docker build -t ${docker_registry}/meshdemo-pricesvc:v1-${mesh_version} .
       docker push ${docker_registry}/meshdemo-pricesvc:v1-${mesh_version}
   - type: Command
