@@ -20,16 +20,6 @@ steps:
           chmod +x ./kubectl
           oci ce cluster create-kubeconfig --cluster-id ${oke_ocid} --file kconfig --region ${oke_region} --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
           export KUBECONFIG="kconfig"
-          # BUILD HOME v1 - STATIC
-          cd ./home/
-          cp ./html/pricing/index_static.html ./html/pricing/index.html
-          docker build -t ${docker_registry}/meshdemo-homesvc:v1-${version} .
-          docker push ${docker_registry}/meshdemo-homesvc:v1-${version}
-          # BUILD HOME v2 - DYNAMIC 
-          cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
-          docker build -t ${docker_registry}/meshdemo-homesvc:v2-${version} .
-          docker push ${docker_registry}/meshdemo-homesvc:v2-${version}
-          cd ..
           # BUILD PRICE v1 
           sed -i "s/atp_pwd/${password}/g" ./price/price.js
           sed -i "s/meshdemo_dbname/${dbname}/g" ./price/price.js
@@ -52,6 +42,7 @@ steps:
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
           cd ./price/Wallet
           zip ./Wallet.zip *
+          export atp_link=$(grep -oP '(?<=service_name=)[^_]*' tnsnames.ora | echo "https://$(head -n 1)-${dbname}.adb.eu-frankfurt-1.oraclecloudapps.com/ords/r/priceadmin/price-admin/login")
           cd ../..
           mkdir ./Wallet
           mv ./price/Wallet/Wallet.zip ./Wallet/.
@@ -69,6 +60,17 @@ steps:
           wget ${instant_client} -q
           docker build -t ${docker_registry}/meshdemo-pricesvc:v1-${version} .
           docker push ${docker_registry}/meshdemo-pricesvc:v1-${version}
+          cd ..
+          # BUILD HOME v1 - STATIC
+          cd ./home/
+          cp ./html/pricing/index_static.html ./html/pricing/index.html
+          docker build -t ${docker_registry}/meshdemo-homesvc:v1-${version} .
+          docker push ${docker_registry}/meshdemo-homesvc:v1-${version}
+          # BUILD HOME v2 - DYNAMIC 
+          sed -i "s/atp_link/${atp_link}/g" ./html/pricing/index_dynamic.html
+          cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
+          docker build -t ${docker_registry}/meshdemo-homesvc:v2-${version} .
+          docker push ${docker_registry}/meshdemo-homesvc:v2-${version}
           cd ..
           ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
           ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
