@@ -76,13 +76,13 @@ steps:
           echo "GRAFANA IP: ${grafana_ip}"
           # BUILD HOME v1 - STATIC
           cd ./home/
-          sed -i "s|grafana_link|http://${grafana_link}|g" ./html/pricing/index_static.html
+          sed -i "s|grafana_link|http://${grafana_ip}|g" ./html/pricing/index_static.html
           cp ./html/pricing/index_static.html ./html/pricing/index.html
           docker build -t ${docker_registry}/meshdemo-homesvc:v1-${version} .
           docker push ${docker_registry}/meshdemo-homesvc:v1-${version}
           # BUILD HOME v2 - DYNAMIC 
-          sed -i "s|grafana_link|http://${grafana_link}|g" ./html/pricing/index_dynamic.html
-          sed -i "s|atp_link|${grafana_link}|g" ./html/pricing/index_dynamic.html
+          sed -i "s|grafana_link|http://${grafana_ip}|g" ./html/pricing/index_dynamic.html
+          sed -i "s|atp_link|${atp_link}|g" ./html/pricing/index_dynamic.html
           cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
           docker build -t ${docker_registry}/meshdemo-homesvc:v2-${version} .
           docker push ${docker_registry}/meshdemo-homesvc:v2-${version}
