@@ -3,8 +3,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-var links = { atp: "", grafana: "" };
-
 app.get('/free', (req, res) => {
   var resp = {};
   var options = {
@@ -69,15 +67,6 @@ app.get('/enterprise', (req, res) => {
         });
     });
     remote_req.end();
-});
-
-app.get('/links', (req, res) => {
-  res.send(JSON.stringify(links));
-});
-
-app.put('/links/:atp/:grafana', (req, res) => {
-  links.atp = req.params['atp'];
-  links.grafana = req.params['grafana'];
 });
 
 app.use('/', express.static(path.join(__dirname, 'html/pricing')));

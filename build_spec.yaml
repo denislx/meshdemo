@@ -87,6 +87,7 @@ steps:
       docker build -t ${docker_registry}/meshdemo-homesvc:v1-${mesh_version} .
       docker push ${docker_registry}/meshdemo-homesvc:v1-${mesh_version}
       # BUILD HOME v2 - DYNAMIC
+      sed -i "s|atp_link|${atp_link}|g" ./html/pricing/index_dynamic.html
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
       docker build -t ${docker_registry}/meshdemo-homesvc:v2-${mesh_version} .
       docker push ${docker_registry}/meshdemo-homesvc:v2-${mesh_version}

@@ -5,9 +5,6 @@ var pricing = new Vue({
   el: '#pricing',
   data: { data },
   mounted () {
-    data.links = {};
-    data.links.atp = {};
-    data.links.grafana = {};
     data.free = {};
     data.free.price = {};
     data.free.options = {};
@@ -17,7 +14,6 @@ var pricing = new Vue({
     data.enterprise = {};
     data.enterprise.price = {};
     data.enterprise.options = {};
-    getLinks();
     getPriceFree();
     getPricePro();
     getPriceEnterprise();
@@ -25,23 +21,6 @@ var pricing = new Vue({
   methods:{
   }
 })
-
-unction getLinks(callback) {
-    axios
-      .get('/links')
-      .then(resp => 
-            {        
-                data.links = resp.data;
-                return callback;
-            }
-        )
-     .catch(error => {
-            console.log(error)
-        })
-     .finally(() => { 
-            console.log(data.links);
-        })
-}
 
 function getPriceFree(callback) {
     axios
