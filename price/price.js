@@ -107,6 +107,7 @@ async function queryOptions(tier) {
         await connection.close();
       } catch (err) {
         console.error(err);
+        closePoolAndExit();
       }
     }
   }
@@ -129,6 +130,7 @@ async function updatePrice(tier, json) {
         await connection.close();
       } catch (err) {
         console.error(err);
+        closePoolAndExit();
       }
     }
   }
