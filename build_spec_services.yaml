@@ -81,7 +81,7 @@ steps:
           ./kubectl delete deployment home-v2 -n $meshdemo_version
           ./kubectl delete deployment price-v1 -n $meshdemo_version
           ./kubectl create -f app.yaml &
-          sleep 180
+          sleep 60
           oci lb load-balancer list -c ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --region ${oke_region} | jq '.data[]."ip-addresses"[]."ip-address"' | tr -d '"' > lb.out
           while read line; do
             echo "IP: ${line}"
