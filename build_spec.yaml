@@ -51,6 +51,18 @@ steps:
         echo "ATP instance does not exist/could not be created .. exiting build."
         exit 1
       fi
+      oci lb load-balancer list -c ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --region ${oke_region} | jq '.data[]."ip-addresses"[]."ip-address"' | tr -d '"' > lb.out
+      while read line; do
+        echo "IP: ${line}"
+        wget $line
+        if [ -f "index.html" ]; then
+            if grep -q grafana "index.html"; then
+              export grafana_ip=${line}
+            fi
+            rm -f index.html
+        fi
+      done <lb.out
+      echo "GRAFANA IP: ${grafana_ip}"
       # BUILD PRICE v1
       mkdir -p ./price/Wallet
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."tnsnames.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/tnsnames.ora
@@ -83,10 +95,12 @@ steps:
       cd ..
       # BUILD HOME v1 - STATIC
       cd ./home/
+      sed -i "s|grafana_link|http://${grafana_ip}|g" ./html/pricing/index_static.html
       cp ./html/pricing/index_static.html ./html/pricing/index.html
       docker build -t ${docker_registry}/meshdemo-homesvc:v1-${mesh_version} .
       docker push ${docker_registry}/meshdemo-homesvc:v1-${mesh_version}
       # BUILD HOME v2 - DYNAMIC
+      sed -i "s|grafana_link|http://${grafana_ip}|g" ./html/pricing/index_dynamic.html
       sed -i "s|atp_link|${atp_link}|g" ./html/pricing/index_dynamic.html
       cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
       docker build -t ${docker_registry}/meshdemo-homesvc:v2-${mesh_version} .
