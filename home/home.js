@@ -76,8 +76,8 @@ app.get('/links', (req, res) => {
 });
 
 app.put('/links/:atp/:grafana', (req, res) => {
-  links.atp = req.params['atp']);
-  links.grafana = req.params['grafana']);
+  links.atp = req.params['atp'];
+  links.grafana = req.params['grafana'];
 });
 
 app.use('/', express.static(path.join(__dirname, 'html/pricing')));
