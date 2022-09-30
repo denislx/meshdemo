@@ -62,6 +62,18 @@ steps:
           docker build -t ${docker_registry}/meshdemo-pricesvc:v1-${version} .
           docker push ${docker_registry}/meshdemo-pricesvc:v1-${version}
           cd ..
+          oci lb load-balancer list -c ocid1.compartment.oc1..aaaaaaaabwqnkg5r4sgb72edair3gaxqckws6p2qgxlyq67mnnqxvntwm4vq --region ${oke_region} | jq '.data[]."ip-addresses"[]."ip-address"' | tr -d '"' > lb.out
+          while read line; do
+            echo "IP: ${line}"
+            wget $line
+            if [ -f "index.html" ]; then
+                if grep -q grafana "index.html"; then
+                  export grafana_ip=${line}
+                fi
+                rm -f index.html
+            fi
+          done <lb.out
+          echo "GRAFANA IP: ${grafana_ip}"
           # BUILD HOME v1 - STATIC
           cd ./home/
           cp ./html/pricing/index_static.html ./html/pricing/index.html
