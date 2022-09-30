@@ -51,22 +51,14 @@ steps:
         echo "ATP instance does not exist/could not be created .. exiting build."
         exit 1
       fi
-      # BUILD HOME v1 - STATIC
-      cd ./home/
-      cp ./html/pricing/index_static.html ./html/pricing/index.html
-      docker build -t ${docker_registry}/meshdemo-homesvc:v1-${mesh_version} .
-      docker push ${docker_registry}/meshdemo-homesvc:v1-${mesh_version}
-      # BUILD HOME v2 - DYNAMIC 
-      cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
-      docker build -t ${docker_registry}/meshdemo-homesvc:v2-${mesh_version} .
-      docker push ${docker_registry}/meshdemo-homesvc:v2-${mesh_version}
-      cd ..
       # BUILD PRICE v1
       mkdir -p ./price/Wallet
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."tnsnames.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/tnsnames.ora
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
       ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
-      sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora      
+      sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
+      export atp_link=$(grep -oP '(?<=service_name=)[^_]*' tnsnames.ora | echo "https://$(head -n 1)-${dbname}.adb.${oke_region}.oraclecloudapps.com/ords/r/priceadmin/price-admin/login")
+      echo "ATP admin link: ${atp_link}" 
       cd ./price/Wallet
       zip ./Wallet.zip *
       cd ../..
@@ -88,6 +80,17 @@ steps:
       wget ${instant_client} -q
       docker build -t ${docker_registry}/meshdemo-pricesvc:v1-${mesh_version} .
       docker push ${docker_registry}/meshdemo-pricesvc:v1-${mesh_version}
+      cd ..
+      # BUILD HOME v1 - STATIC
+      cd ./home/
+      cp ./html/pricing/index_static.html ./html/pricing/index.html
+      docker build -t ${docker_registry}/meshdemo-homesvc:v1-${mesh_version} .
+      docker push ${docker_registry}/meshdemo-homesvc:v1-${mesh_version}
+      # BUILD HOME v2 - DYNAMIC
+      sed -i "s|atp_link|${atp_link}|g" ./html/pricing/index_dynamic.html
+      cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
+      docker build -t ${docker_registry}/meshdemo-homesvc:v2-${mesh_version} .
+      docker push ${docker_registry}/meshdemo-homesvc:v2-${mesh_version}
   - type: Command
     command: |
       chmod +x ./kubectl
@@ -192,7 +195,7 @@ steps:
       ./kubectl apply -f grafana.yaml
   - type: Command
     command: |
-       # Generate Mesh name for logging dynamically
+       # Generate Mesh name for DNS dynamically
        export mesh_version=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-6 | rev`
        echo "Mesh version: ${mesh_version}"
        export meshdemo_version="meshdemo-${mesh_version}"
