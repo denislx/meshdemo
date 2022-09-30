@@ -76,7 +76,7 @@ steps:
           echo "GRAFANA IP: ${grafana_ip}"
           # BUILD HOME v1 - STATIC
           cd ./home/
-          sed -i "s|atp_link|${grafana_link}|g" ./html/pricing/index_static.html
+          sed -i "s|grafana_link|http://${grafana_link}|g" ./html/pricing/index_static.html
           cp ./html/pricing/index_static.html ./html/pricing/index.html
           docker build -t ${docker_registry}/meshdemo-homesvc:v1-${version} .
           docker push ${docker_registry}/meshdemo-homesvc:v1-${version}
