@@ -40,9 +40,10 @@ steps:
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
+          export atp_link=$(grep -oP '(?<=service_name=)[^_]*' ./price/Wallet/tnsnames.ora | echo "https://$(head -n 1)-${dbname}.adb.eu-frankfurt-1.oraclecloudapps.com/ords/r/priceadmin/price-admin/login")
+          echo "ATP admin link: ${atp_link}" 
           cd ./price/Wallet
           zip ./Wallet.zip *
-          export atp_link=$(grep -oP '(?<=service_name=)[^_]*' tnsnames.ora | echo "https://$(head -n 1)-${dbname}.adb.eu-frankfurt-1.oraclecloudapps.com/ords/r/priceadmin/price-admin/login")
           cd ../..
           mkdir ./Wallet
           mv ./price/Wallet/Wallet.zip ./Wallet/.
