@@ -40,7 +40,7 @@ steps:
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."cwallet.sso"' | tr -d '"' | base64 --decode > ./price/Wallet/cwallet.sso
           sed -i "s|"?/network/admin"|"./Wallet"|g" ./price/Wallet/sqlnet.ora
-          export atp_link=$(grep -oP '(?<=service_name=)[^_]*' ./price/Wallet/tnsnames.ora | echo "https://$(head -n 1)-${dbname}.adb.eu-frankfurt-1.oraclecloudapps.com/ords/r/priceadmin/price-admin/login")
+          export atp_link=$(grep -oP '(?<=service_name=)[^_]*' ./price/Wallet/tnsnames.ora | echo "https://$(head -n 1)-${dbname}.adb.${oke_region}.oraclecloudapps.com/ords/r/priceadmin/price-admin/login")
           echo "ATP admin link: ${atp_link}" 
           cd ./price/Wallet
           zip ./Wallet.zip *
@@ -68,7 +68,7 @@ steps:
           docker build -t ${docker_registry}/meshdemo-homesvc:v1-${version} .
           docker push ${docker_registry}/meshdemo-homesvc:v1-${version}
           # BUILD HOME v2 - DYNAMIC 
-          sed -i "s/atp_link/${atp_link}/g" ./html/pricing/index_dynamic.html
+          sed -i "s|atp_link|${atp_link}|g" ./html/pricing/index_dynamic.html
           cp ./html/pricing/index_dynamic.html ./html/pricing/index.html
           docker build -t ${docker_registry}/meshdemo-homesvc:v2-${version} .
           docker push ${docker_registry}/meshdemo-homesvc:v2-${version}
