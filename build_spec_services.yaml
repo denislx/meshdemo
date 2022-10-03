@@ -23,18 +23,6 @@ steps:
           # BUILD PRICE v1 
           sed -i "s/atp_pwd/${password}/g" ./price/price.js
           sed -i "s/meshdemo_dbname/${dbname}/g" ./price/price.js
-          export tries=0
-          export atp_status=''
-          while [ $tries -le 30 ] && [[ $atp_status != 'Active' ]] 
-          do
-              atp_status=$(./kubectl get AutonomousDatabases -n ${meshdemo_version} -o json | jq '.items[]'.status.status.conditions[].type)
-              if [ "$atp_status" != "" ]; then
-               atp_status=$(./kubectl get AutonomousDatabases -n ${meshdemo_version} -o json | jq '.items[].status.status.conditions[] | select(."type" == "Active") | .type' | tr -d '"')
-              fi
-              echo "atp status: $tries $atp_status"
-              tries=$(( $tries + 1 ))
-              sleep 5
-          done
           mkdir -p ./price/Wallet
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."tnsnames.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/tnsnames.ora
           ./kubectl get secret wallet -n ${meshdemo_version} -o jsonpath='{.data}' | jq '."sqlnet.ora"' | tr -d '"' | base64 --decode > ./price/Wallet/sqlnet.ora
@@ -47,16 +35,6 @@ steps:
           cd ../..
           mkdir ./Wallet
           mv ./price/Wallet/Wallet.zip ./Wallet/.
-          # Run Liquibase to Create the database
-          wget ${jdk} -q
-          tar -xzf jdk-11.0.16_linux-x64_bin.tar.gz
-          export PATH=./jdk-11.0.16/bin:$PATH
-          export JAVA_HOME=./jdk-11.0.16
-          wget ${sqlcli_client} -q
-          unzip V1022102-01.zip
-          sed -i "s/atp_pwd/${password}/g" ./create_apex.sh
-          sed -i "s/meshdemo_dbname/${dbname}/g" ./create_apex.sh
-          sh ./create_apex.sh
           cd ./price/
           wget ${instant_client} -q
           docker build -t ${docker_registry}/meshdemo-pricesvc:v1-${version} .
@@ -73,8 +51,6 @@ steps:
           docker build -t ${docker_registry}/meshdemo-homesvc:v2-${version} .
           docker push ${docker_registry}/meshdemo-homesvc:v2-${version}
           cd ..
-          ./kubectl create secret generic admin-secret --from-literal=password=${password} -n ${meshdemo_version}
-          ./kubectl create secret generic wallet-secret --from-literal=walletPassword=${password} -n ${meshdemo_version}
           sed -i "s/tag/${version}/g" app.yaml
           sed -i "s/meshdemo_version/${meshdemo_version}/g" app.yaml
           sed -i "s|meshdemo_registry|${docker_registry}|g" app.yaml
