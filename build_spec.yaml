@@ -25,9 +25,9 @@ steps:
       echo "Meshdemo: ${meshdemo_version}"
       yum -y install jq
       chmod +x ./kubectl
-      # Install database via OSOK
       oci ce cluster create-kubeconfig --cluster-id ${oke_ocid} --file kconfig --region ${oke_region} --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
       export KUBECONFIG="kconfig"
+      # Install database via OSOK
       sed -i "s/meshdemo_version/${meshdemo_version}/g" ./price/atp.yaml
       sed -i "s/meshdemo_compartment/${compartment_ocid}/g" ./price/atp.yaml
       sed -i "s/meshdemo_dbname/${dbname}/g" ./price/atp.yaml
